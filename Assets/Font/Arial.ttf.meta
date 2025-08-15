@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 12f7e21e8e63e55489f7f5fe976745d8
+timeCreated: 1747787279
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 2
+  name:
+  fontSize: 13
+  forceTextureCase: -2
+  characterSpacing: 1
+  characterPadding: 0
+  includeFontData: 1
+  use2xBehaviour: 0
+  fontNames:
+  - Liberation Sans
+  - Arial
+  customCharacters:
+  fontRenderingMode: 0
+  output:
+    hasEmptyFontData: 0
+  userData:

@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/_Scenes/SceneCG.unity
+    guid: df2a99f54fb732440a942f961b5f6283
+  - enabled: 1
+    path: Assets/_Scenes/SceneForest.unity
+    guid: e2bcc7e3e7a72a64d914c042c065779b
+  - enabled: 1
+    path: Assets/_Scenes/SceneGorge.unity
+    guid: c6f54fca6a44fce4e94ba32fec7b3e1c
+  - enabled: 1
+    path: Assets/_Scenes/SceneIce.unity
+    guid: 5ae67d00ec7b5464987e1a056547407a
+  - enabled: 1
+    path: Assets/_Scenes/SceneLava.unity
+    guid: 28ec344d64d1a7c40a8620a6754a7339
+  - enabled: 1
+    path: Assets/_Scenes/SceneLava2.unity
+    guid: 1fdc7dc118d19c344a35e620f930e0d1
+  - enabled: 1
+    path: Assets/_Scenes/SceneLoad.unity
+    guid: a89c950e6b78e1643a4acd7606212e4d
+  - enabled: 1
+    path: Assets/_Scenes/SceneMainMutiply.unity
+    guid: 8f2451af94650e14597fe63259159c7a
+  - enabled: 1
+    path: Assets/_Scenes/SceneMap.unity
+    guid: 49ebd9e12aebe8840bc5622db4cc1c84
+  - enabled: 1
+    path: Assets/_Scenes/SceneRoom.unity
+    guid: 4926f5c2a727ffa4f9f45e085d03b8e3
+  - enabled: 1
+    path: Assets/_Scenes/SceneSnow.unity
+    guid: dd9666749d6b2bf43b0e4db2a13c4bb4
+  - enabled: 1
+    path: Assets/TUI_DinoHunter/Scene/Scene_BlackMarket.unity
+    guid: 00643f957c578364d9e0cca4db386c70
+  - enabled: 1
+    path: Assets/TUI_DinoHunter/Scene/Scene_CoopInputName.unity
+    guid: 1d28a6cf034a69a4a8d22669468787e0
+  - enabled: 1
+    path: Assets/TUI_DinoHunter/Scene/Scene_CoopMainMenu.unity
+    guid: 5042ca0edc8534246b8f61db6bb59dc2
+  - enabled: 1
+    path: Assets/TUI_DinoHunter/Scene/Scene_CoopRoom.unity
+    guid: c742f47186245064f811d0a1542a9420
+  - enabled: 1
+    path: Assets/TUI_DinoHunter/Scene/Scene_Equip.unity
+    guid: fa5405ec44913a047991818aef71b155
+  - enabled: 1
+    path: Assets/TUI_DinoHunter/Scene/Scene_Forge.unity
+    guid: 77ffab19b20155f4083b12a83664268b
+  - enabled: 1
+    path: Assets/TUI_DinoHunter/Scene/Scene_Gold.unity
+    guid: 6eae6814c3e675545a23b7a8d762e4fe
+  - enabled: 1
+    path: Assets/TUI_DinoHunter/Scene/Scene_IAP.unity
+    guid: 104dbb67f3ecbf3449ebd8c17e5b6e45
+  - enabled: 1
+    path: Assets/TUI_DinoHunter/Scene/Scene_Main.unity
+    guid: 3a94eff62b22d914a9d1fcf771939d9b
+  - enabled: 1
+    path: Assets/TUI_DinoHunter/Scene/Scene_MainMenu.unity
+    guid: 57f3beff9226cbc4099cdc324a8a583d
+  - enabled: 1
+    path: Assets/TUI_DinoHunter/Scene/Scene_Map.unity
+    guid: 5a664cc82b4661b419a76ad445f39517
+  - enabled: 1
+    path: Assets/TUI_DinoHunter/Scene/Scene_Skill.unity
+    guid: 92680e67210731a4186112fa0af0924b
+  - enabled: 1
+    path: Assets/TUI_DinoHunter/Scene/Scene_Stash.unity
+    guid: 75f1910ac48a0db47a38aeaa7f70ad31
+  - enabled: 1
+    path: Assets/TUI_DinoHunter/Scene/Scene_Tavern.unity
+    guid: e31e8aee00f725a42a20e2de92a799fd
