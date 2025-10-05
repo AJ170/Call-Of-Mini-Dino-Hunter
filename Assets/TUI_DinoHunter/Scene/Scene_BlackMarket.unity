@@ -21858,7 +21858,7 @@ Camera:
     x: 0
     y: 0
     width: 1
-    height: 1
+    height: 0.99999994
   near clip plane: -128
   far clip plane: 128
   field of view: 60
@@ -42589,8 +42589,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1522
-    height: 289
+    width: 1008
+    height: 567
 --- !u!114 &2444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44542,7 +44542,7 @@ MonoBehaviour:
   alignment: 1
   pivot: 5
   textID: 
-  text: 'LeftTime:'
+  text: 'Time Left:'
   maxLineWidth: 0
   encoding: 1
   multiline: 1

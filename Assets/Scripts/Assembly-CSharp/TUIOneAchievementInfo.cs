@@ -12,7 +12,7 @@ public class TUIOneAchievementInfo
 
 	public Dictionary<int, int> progress_list;
 
-	public Dictionary<int, bool> take_reward_list;
+	public Dictionary<SafeInteger, bool> take_reward_list;
 
 	public int progress;
 
@@ -22,7 +22,7 @@ public class TUIOneAchievementInfo
 	{
 	}
 
-	public TUIOneAchievementInfo(int m_id, Dictionary<int, string> m_name_list, Dictionary<int, string> m_introduce_list, Dictionary<int, TUIAchievementRewardInfo> m_reward_list, Dictionary<int, int> m_progress_list, Dictionary<int, bool> m_take_reward_list, Dictionary<int, string> m_progress_text_list)
+	public TUIOneAchievementInfo(int m_id, Dictionary<int, string> m_name_list, Dictionary<int, string> m_introduce_list, Dictionary<int, TUIAchievementRewardInfo> m_reward_list, Dictionary<int, int> m_progress_list, Dictionary<SafeInteger, bool> m_take_reward_list, Dictionary<int, string> m_progress_text_list)
 	{
 		id = m_id;
 		name_list = m_name_list;

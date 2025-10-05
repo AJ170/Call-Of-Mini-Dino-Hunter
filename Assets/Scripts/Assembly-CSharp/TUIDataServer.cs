@@ -368,7 +368,7 @@ public class TUIDataServer
 				Dictionary<int, string> dictionary2 = new Dictionary<int, string>();
 				Dictionary<int, TUIAchievementRewardInfo> dictionary3 = new Dictionary<int, TUIAchievementRewardInfo>();
 				Dictionary<int, int> dictionary4 = new Dictionary<int, int>();
-				Dictionary<int, bool> dictionary5 = new Dictionary<int, bool>();
+				Dictionary<SafeInteger, bool> dictionary5 = new Dictionary<SafeInteger, bool>();
 				Dictionary<int, string> dictionary6 = new Dictionary<int, string>();
 				for (int i = 0; i < 3; i++)
 				{
@@ -1061,7 +1061,7 @@ public class TUIDataServer
 			{
 				return;
 			}
-			List<int> dailyTask = dataCenter11.GetDailyTask();
+			List<SafeInteger> dailyTask = dataCenter11.GetDailyTask();
 			if (dailyTask == null)
 			{
 				return;
@@ -1302,7 +1302,7 @@ public class TUIDataServer
 				tUIPopupInfo.m_PopupType = PopupType.Roles;
 				tUIPopupInfo.m_CharacterAttribute = new TUICharacterAttribute();
 				tUIPopupInfo.m_CharacterAttribute.m_nModelID = cCharacterInfoLevel.nModel;
-				tUIPopupInfo.m_CharacterAttribute.m_nAvatarHead = ((m_DataCenter.AvatarHead <= 0) ? cCharacterInfoLevel.nAvatarHead : m_DataCenter.AvatarHead);
+				tUIPopupInfo.m_CharacterAttribute.m_nAvatarHead = (	(m_DataCenter.AvatarHead <= 0) ? cCharacterInfoLevel.nAvatarHead : m_DataCenter.AvatarHead);
 				tUIPopupInfo.m_CharacterAttribute.m_nAvatarUpper = ((m_DataCenter.AvatarUpper <= 0) ? cCharacterInfoLevel.nAvatarUpper : m_DataCenter.AvatarUpper);
 				tUIPopupInfo.m_CharacterAttribute.m_nAvatarLower = ((m_DataCenter.AvatarLower <= 0) ? cCharacterInfoLevel.nAvatarLower : m_DataCenter.AvatarLower);
 				tUIPopupInfo.m_CharacterAttribute.m_nAvatarHeadup = ((m_DataCenter.AvatarHeadup <= 0) ? (-1) : m_DataCenter.AvatarHeadup);
@@ -1369,7 +1369,7 @@ public class TUIDataServer
 					{
 						continue;
 					}
-					int nSkillLevel = 0;
+                    int nSkillLevel = 0;
 					if (!dataCenter3.GetPassiveSkill(skillInfo.nID, ref nSkillLevel))
 					{
 						continue;
@@ -1394,7 +1394,7 @@ public class TUIDataServer
 			if (characterInfo2 != null)
 			{
 				int nSkill = characterInfo2.nSkill;
-				int nSkillLevel2 = -1;
+                int nSkillLevel2 = -1;
 				dataCenter3.GetSkill(nSkill, ref nSkillLevel2);
 				CSkillInfoLevel skillInfo2 = gameData3.GetSkillInfo(characterInfo2.nSkill, nSkillLevel2);
 				if (skillInfo2 != null)
@@ -1405,8 +1405,8 @@ public class TUIDataServer
 					tUIGameInfo3.equip_info.skill.duoren_skill = nSkillLevel2 == 2;
 				}
 			}
-			int[] array2 = new int[3];
-			int[] array3 = new int[3];
+            int[] array2 = new int[3];
+            int[] array3 = new int[3];
 			for (int k = 0; k < 3; k++)
 			{
 				array2[k] = dataCenter3.GetSelectPassiveSkill(dataCenter3.CurCharID, k);
@@ -1456,8 +1456,8 @@ public class TUIDataServer
 			m_GameState.m_nGotoEquip_PopupType = -1;
 			if (m_GameData.m_WeaponCenter != null)
 			{
-				Dictionary<int, int> weaponData = m_DataCenter.GetWeaponData();
-				foreach (KeyValuePair<int, int> item3 in weaponData)
+				Dictionary<int, SafeInteger> weaponData = m_DataCenter.GetWeaponData();
+				foreach (KeyValuePair<int, SafeInteger> item3 in weaponData)
 				{
 					int key = item3.Key;
 					int value = item3.Value;
@@ -1507,8 +1507,8 @@ public class TUIDataServer
 			}
 			if (m_GameData.m_AvatarCenter != null)
 			{
-				Dictionary<int, int> avatarData = m_DataCenter.GetAvatarData();
-				foreach (KeyValuePair<int, int> item4 in avatarData)
+				Dictionary<int, SafeInteger> avatarData = m_DataCenter.GetAvatarData();
+				foreach (KeyValuePair<int, SafeInteger> item4 in avatarData)
 				{
 					int key2 = item4.Key;
 					int value2 = item4.Value;
@@ -1589,7 +1589,7 @@ public class TUIDataServer
 				for (int num = 0; num < 3; num++)
 				{
 					int selectWeapon = dataCenter4.GetSelectWeapon(num);
-					int nLevel = 0;
+                    int nLevel = 0;
 					dataCenter4.GetWeaponLevel(selectWeapon, ref nLevel);
 					CWeaponInfoLevel cWeaponInfoLevel2 = m_GameData.m_WeaponCenter.Get(selectWeapon, nLevel);
 					if (cWeaponInfoLevel2 == null)
@@ -1632,7 +1632,7 @@ public class TUIDataServer
 				for (int num2 = 0; num2 < array4.Length; num2++)
 				{
 					int num3 = array4[num2];
-					int avatarlevel = 0;
+                    int avatarlevel = 0;
 					m_DataCenter.GetAvatar(num3, ref avatarlevel);
 					CAvatarInfo cAvatarInfo2 = m_GameData.m_AvatarCenter.Get(num3);
 					if (cAvatarInfo2 == null)
@@ -1751,7 +1751,7 @@ public class TUIDataServer
 						{
 							continue;
 						}
-						int nSkillLevel3 = 0;
+                        int nSkillLevel3 = 0;
 						if (!dataCenter5.GetPassiveSkill(skillInfo3.nID, ref nSkillLevel3))
 						{
 							continue;
@@ -1776,7 +1776,7 @@ public class TUIDataServer
 				if (characterInfo4 != null)
 				{
 					int nSkill2 = characterInfo4.nSkill;
-					int nSkillLevel4 = -1;
+                    int nSkillLevel4 = -1;
 					dataCenter5.GetSkill(nSkill2, ref nSkillLevel4);
 					CSkillInfoLevel skillInfo4 = gameData5.GetSkillInfo(characterInfo4.nSkill, nSkillLevel4);
 					if (skillInfo4 != null)
@@ -1787,8 +1787,8 @@ public class TUIDataServer
 						tUIGameInfo5.equip_info.skill.duoren_skill = nSkillLevel4 == 2;
 					}
 				}
-				int[] array5 = new int[3];
-				int[] array6 = new int[3];
+                int[] array5 = new int[3];
+                int[] array6 = new int[3];
 				for (int num5 = 0; num5 < 3; num5++)
 				{
 					array5[num5] = dataCenter5.GetSelectPassiveSkill(dataCenter5.CurCharID, num5);
@@ -1884,7 +1884,7 @@ public class TUIDataServer
 			int wParam5 = m_event.GetWParam();
 			int lparam4 = m_event.GetLparam();
 			PopupType type = m_event.GetType();
-			int avatarlevel2 = -1;
+            int avatarlevel2 = -1;
 			switch (type)
 			{
 			default:
@@ -2289,104 +2289,101 @@ public class TUIDataServer
 				}
 			}
 		}
-		else if (m_event.GetEventName() == TUIEvent.SceneStashEventType.TUIEvent_StashInfo)
-		{
-			iGameData gameData2 = iGameApp.GetInstance().m_GameData;
-			if (gameData2 == null)
-			{
-				return;
-			}
-			iDataCenter dataCenter2 = gameData2.GetDataCenter();
-			if (dataCenter2 == null)
-			{
-				return;
-			}
-			iItemCenter itemCenter = gameData2.GetItemCenter();
-			if (itemCenter == null)
-			{
-				return;
-			}
-			iStashCapacityCenter stashCapacityCenter = gameData2.GetStashCapacityCenter();
-			if (stashCapacityCenter == null)
-			{
-				return;
-			}
-			TUIGameInfo tUIGameInfo2 = new TUIGameInfo();
-			tUIGameInfo2.stash_info = new TUIStashInfo();
-			List<TUIStashUpdateInfo> list = new List<TUIStashUpdateInfo>();
-			List<CStashCapacity> data = stashCapacityCenter.GetData();
-			if (data != null)
-			{
-				for (int i = 0; i < data.Count; i++)
-				{
-					string empty = string.Empty;
-					int price = 0;
-					bool flag = false;
-					if (i == data.Count - 1)
-					{
-						empty = "MAX";
-					}
-					else
-					{
-						empty = "Add Stash Size to " + data[i + 1].nCapacity + "({color:1eff0000}+" + (data[i + 1].nCapacity - data[i].nCapacity) + "{color})";
-						price = data[i + 1].nPrice;
-						flag = data[i + 1].isCrystalPurchase;
-					}
-					list.Add(new TUIStashUpdateInfo(i + 1, new TUIPriceInfo(price, flag ? UnitType.Crystal : UnitType.Gold), data[i].nCapacity, empty));
-				}
-			}
-			tUIGameInfo2.stash_info.goods_info_list = new List<TUIGoodsInfo>();
-			Dictionary<int, CItemInfo> data2 = itemCenter.GetData();
-			if (data2 != null)
-			{
-				CItemInfoLevel cItemInfoLevel = null;
-				int num = 0;
-				foreach (CItemInfo value in data2.Values)
-				{
-					cItemInfoLevel = value.Get(1);
-					if (cItemInfoLevel != null && cItemInfoLevel.nType == 3)
-					{
-						num = dataCenter2.GetMaterialNum(value.nID);
-						if (num == -1)
-						{
-							num = 0;
-						}
-						GoodsQualityType quality = GoodsQualityType.Quality01;
-						switch (cItemInfoLevel.nRare)
-						{
-						case 1:
-							quality = GoodsQualityType.Quality01;
-							break;
-						case 2:
-							quality = GoodsQualityType.Quality02;
-							break;
-						case 3:
-							quality = GoodsQualityType.Quality03;
-							break;
-						case 4:
-							quality = GoodsQualityType.Quality04;
-							break;
-						case 5:
-							quality = GoodsQualityType.Quality05;
-							break;
-						case 6:
-							quality = GoodsQualityType.Quality06;
-							break;
-						}
-						tUIGameInfo2.stash_info.goods_info_list.Add(new TUIGoodsInfo(value.nID, quality, cItemInfoLevel.sName, num, new TUIPriceInfo(cItemInfoLevel.nSellPrice, cItemInfoLevel.isCrystalSell ? UnitType.Crystal : UnitType.Gold)));
-					}
-				}
-			}
-			int num2 = dataCenter2.StashLevel - 1;
-			if (num2 >= list.Count)
-			{
-				num2 = list.Count - 1;
-			}
-			LogMgr.Log(num2 + " " + dataCenter2.StashLevel);
-			tUIGameInfo2.stash_info = new TUIStashInfo(dataCenter2.StashLevel, list.ToArray(), tUIGameInfo2.stash_info.goods_info_list);
-			global::EventCenter.EventCenter.Instance.Publish(this, new TUIEvent.BackEvent_SceneStash(m_event.GetEventName(), tUIGameInfo2));
-		}
-		else if (m_event.GetEventName() == TUIEvent.SceneStashEventType.TUIEvent_AddCapacity)
+        else if (m_event.GetEventName() == TUIEvent.SceneStashEventType.TUIEvent_StashInfo)
+        {
+            iGameData gameData2 = iGameApp.GetInstance().m_GameData;
+            if (gameData2 == null) return;
+
+            iDataCenter dataCenter2 = gameData2.GetDataCenter();
+            if (dataCenter2 == null) return;
+
+            iItemCenter itemCenter = gameData2.GetItemCenter();
+            if (itemCenter == null) return;
+
+            iStashCapacityCenter stashCapacityCenter = gameData2.GetStashCapacityCenter();
+            if (stashCapacityCenter == null) return;
+
+            TUIGameInfo tUIGameInfo2 = new TUIGameInfo();
+            tUIGameInfo2.stash_info = new TUIStashInfo();
+
+            List<TUIStashUpdateInfo> list = new List<TUIStashUpdateInfo>();
+            List<CStashCapacity> data = stashCapacityCenter.GetData();
+            if (data != null)
+            {
+                for (int i = 0; i < data.Count; i++)
+                {
+                    string displayText = string.Empty;
+                    int price = 0;
+                    bool isCrystal = false;
+
+                    if (i == data.Count - 1)
+                    {
+                        displayText = "MAX";
+                    }
+                    else
+                    {
+                        displayText = "Add Stash Size to " + data[i + 1].nCapacity + "({color:1eff0000}+" + (data[i + 1].nCapacity - data[i].nCapacity) + "{color})";
+                        price = data[i + 1].nPrice;
+                        isCrystal = data[i + 1].isCrystalPurchase;
+                    }
+
+                    list.Add(new TUIStashUpdateInfo(i + 1, new TUIPriceInfo(price, isCrystal ? UnitType.Crystal : UnitType.Gold), data[i].nCapacity, displayText));
+                }
+            }
+
+            tUIGameInfo2.stash_info.goods_info_list = new List<TUIGoodsInfo>();
+            Dictionary<int, CItemInfo> data2 = itemCenter.GetData();
+            if (data2 != null)
+            {
+                foreach (CItemInfo value in data2.Values)
+                {
+                    CItemInfoLevel cItemInfoLevel = value.Get(1);
+                    if (cItemInfoLevel != null && cItemInfoLevel.nType == 3) // material type
+                    {
+                        // SAFE GET: clamp material count
+                        int num = dataCenter2.GetMaterialNum(value.nID);
+                        if (num < 0) num = 0;
+                        int maxAllowed = 100; // set your desired safe max
+                        if (num > maxAllowed) num = maxAllowed;
+
+                        GoodsQualityType quality = GoodsQualityType.Quality01;
+                        switch (cItemInfoLevel.nRare)
+                        {
+                            case 1: quality = GoodsQualityType.Quality01; break;
+                            case 2: quality = GoodsQualityType.Quality02; break;
+                            case 3: quality = GoodsQualityType.Quality03; break;
+                            case 4: quality = GoodsQualityType.Quality04; break;
+                            case 5: quality = GoodsQualityType.Quality05; break;
+                            case 6: quality = GoodsQualityType.Quality06; break;
+                        }
+
+                        tUIGameInfo2.stash_info.goods_info_list.Add(
+                            new TUIGoodsInfo(
+                                value.nID,
+                                quality,
+                                cItemInfoLevel.sName,
+                                num,
+                                new TUIPriceInfo(
+                                    cItemInfoLevel.nSellPrice,
+                                    cItemInfoLevel.isCrystalSell ? UnitType.Crystal : UnitType.Gold
+                                )
+                            )
+                        );
+                    }
+                }
+            }
+
+            int stashLevelIndex = dataCenter2.StashLevel - 1;
+            if (stashLevelIndex >= list.Count) stashLevelIndex = list.Count - 1;
+
+            tUIGameInfo2.stash_info = new TUIStashInfo(dataCenter2.StashLevel, list.ToArray(), tUIGameInfo2.stash_info.goods_info_list);
+
+            global::EventCenter.EventCenter.Instance.Publish(
+                this,
+                new TUIEvent.BackEvent_SceneStash(m_event.GetEventName(), tUIGameInfo2)
+            );
+        }
+        else if (m_event.GetEventName() == TUIEvent.SceneStashEventType.TUIEvent_AddCapacity)
 		{
 			bool success = false;
 			iGameData gameData3 = iGameApp.GetInstance().m_GameData;
@@ -2666,10 +2663,10 @@ public class TUIDataServer
 							{
 								serverConfigInfo.IsPriceOff(4, cSkillInfo.nID, ref nDiscount);
 							}
-							string skill_introduce_unlock = "Unlock at Lv " + cSkillInfo.nUnlockLevel;
+							string skill_introduce_unlock = "Unlock at Hunter Lv " + cSkillInfo.nUnlockLevel;
 							if (j == 0)
 							{
-								int nSkillLevel = 1;
+                                int nSkillLevel = 1;
 								dataCenter2.GetSkill(cSkillInfo.nID, ref nSkillLevel);
 								list.Add(new TUISkillInfo(cSkillInfo.nID, cSkillInfoLevel.sName, nSkillLevel, true, dictionary, dictionary2, dictionary3, true, 2, 1f));
 							}
@@ -5494,8 +5491,8 @@ public class TUIDataServer
 			{
 				return;
 			}
-			int nLevel = 1;
-			int nExp = m_DataCenter.HunterExpTotal;
+            SafeInteger nLevel = 1;
+            SafeInteger nExp = m_DataCenter.HunterExpTotal;
 			hunterCenter.CalcHunterLvl(ref nLevel, ref nExp);
 			m_DataCenter.HunterLvl = nLevel;
 			m_DataCenter.HunterExp = nExp;
@@ -5512,7 +5509,7 @@ public class TUIDataServer
 			CGameNetManager.GetInstance().UploadNameCard(namecardinfo.m_sID, namecardinfo.m_sNickName, namecardinfo.m_nTitle, namecardinfo.m_NCPack);
 			CGameNetManager.GetInstance().UploadRankData(namecardinfo.m_sID, m_DataCenter.NickName, m_DataCenter.CombatPower, m_DataCenter.HunterExpTotal, m_DataCenter.HunterLvl, m_DataCenter.Gold, m_DataCenter.Crystal, m_DataCenter.BeAdmire);
 			m_DataCenterNet.SetNameCardInfo(namecardinfo.m_sID, namecardinfo);
-			if (m_DataCenter.Gold >= 1000000 || m_DataCenter.Crystal >= 100000 || m_DataCenter.HunterLvl >= 999)
+			if (m_DataCenter.Gold >= 500000 || m_DataCenter.Crystal >= 15000 || m_DataCenter.HunterLvl >= 250)
 			{
 				m_DataCenter.m_bInBlackName = true;
 			}

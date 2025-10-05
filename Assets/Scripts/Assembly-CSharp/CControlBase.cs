@@ -8,7 +8,9 @@ public abstract class CControlBase
 
 	protected CCharUser m_User;
 
-	protected iCameraTrail m_Camera;
+    protected iDataCenter m_DataCenter;
+
+    protected iCameraTrail m_Camera;
 
 	public virtual void Initialize()
 	{

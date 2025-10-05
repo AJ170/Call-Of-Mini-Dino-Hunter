@@ -1094,6 +1094,7 @@ public class iGameSceneBase
         }
         m_User.SetFire(false);
         m_User.MoveStop();
+
         if (MyUtils.isWindows)
         {
             Screen.lockCursor = false;
@@ -1118,6 +1119,8 @@ public class iGameSceneBase
         if (bSuccess)
         {
             m_StatusTime = 5f;
+            m_User.SetFire(false);
+            m_User.MoveStop();
             m_CameraReveal.Go(m_User.GetBone(1).gameObject, -20f, 2f, 10f);
             m_User.GetComponent<CharacterController>().enabled = false;
             m_User.CrossAnim(kAnimEnum.VictoryIdle, WrapMode.Loop, 0.3f, 1f, 0f);
@@ -1212,6 +1215,8 @@ public class iGameSceneBase
             m_StatusTime = 5f;
             if (!m_User.isDead)
             {
+                m_User.SetFire(false);
+                m_User.MoveStop();
                 m_CameraReveal.Go(m_User.GetBone(1).gameObject, -20f, 2f, 10f);
                 m_User.CrossAnim(kAnimEnum.FailIdle, WrapMode.Loop, 0.3f, 1f, 0f);
                 m_User.SetActionLayer(kAnimEnum.FailIdle, -1);
@@ -1262,8 +1267,8 @@ public class iGameSceneBase
         }
         if (m_GameData.m_HunterCenter != null)
         {
-            int nLevel = 1;
-            int nExp = m_DataCenter.HunterExpTotal;
+            SafeInteger nLevel = 1;
+            SafeInteger nExp = m_DataCenter.HunterExpTotal;
             m_GameData.m_HunterCenter.CalcHunterLvl(ref nLevel, ref nExp);
             if (nLevel != m_DataCenter.HunterLvl)
             {
@@ -1369,8 +1374,8 @@ public class iGameSceneBase
         m_DataCenter.AddHunterExp(-m_GameState.m_nLevelHunterExpBackgroundPunish);
         if (m_GameData.m_HunterCenter != null)
         {
-            int nLevel = 1;
-            int nExp = m_DataCenter.HunterExpTotal;
+            SafeInteger nLevel = 1;
+            SafeInteger nExp = m_DataCenter.HunterExpTotal;
             m_GameData.m_HunterCenter.CalcHunterLvl(ref nLevel, ref nExp);
             if (nLevel != m_DataCenter.HunterLvl)
             {
@@ -2295,7 +2300,7 @@ public class iGameSceneBase
         }
     }
 
-    public void AddGold(int nGold, Vector3 v3Pos, Vector3 v3Dir, float fScaleRate)
+    public void AddGold(SafeInteger nGold, Vector3 v3Pos, Vector3 v3Dir, float fScaleRate)
     {
         GameObject gameObject = PrefabManager.Get(251);
         if (gameObject == null)
@@ -2332,7 +2337,7 @@ public class iGameSceneBase
         m_ltItem.Add(gameObject2);
     }
 
-    public void AddCrystal(int nCrystal, Vector3 v3Pos, Vector3 v3Dir, float fScaleRate)
+    public void AddCrystal(SafeInteger nCrystal, Vector3 v3Pos, Vector3 v3Dir, float fScaleRate)
     {
         GameObject gameObject = PrefabManager.Get(253);
         if (gameObject == null)
@@ -2347,19 +2352,29 @@ public class iGameSceneBase
         gameObject2.transform.position = v3Pos;
         gameObject2.transform.forward = v3Dir;
         gameObject2.transform.localScale *= fScaleRate;
+
         iItem component = gameObject2.GetComponent<iItem>();
         if (component != null)
         {
-            component.Initialize(50001);
+            bool bAbsorb = false;
+            CTaskInfo taskInfo = m_GameData.GetTaskInfo(m_nCurTaskID);
+            if ((taskInfo != null && taskInfo.nType == 3) || m_curGameLevelInfo.bIsSkyScene)
+            {
+                bAbsorb = true;
+            }
+
+            component.Initialize(50001, bAbsorb);
             component.UID = -1;
             component.AddForce(v3Dir);
             component.UpdateFunc(0, 103, nCrystal, 0);
+
             if (component.isHasScreenTip)
             {
                 component.m_ScreenTip = m_GameUI.CreateScreenTip(m_User.gameObject, gameObject2);
                 component.m_ScreenTip.SetIcon("dan");
             }
         }
+
         m_ltItem.Add(gameObject2);
     }
 
@@ -2944,7 +2959,7 @@ public class iGameSceneBase
         }
     }
 
-    public bool IsLevelUp(int nExp)
+    public bool IsLevelUp(SafeInteger nExp)
     {
         CCharacterInfoLevel curCharInfoLevel = m_User.CurCharInfoLevel;
         if (curCharInfoLevel == null)
@@ -3587,28 +3602,30 @@ public class iGameSceneBase
             }
         }
 
-        float difficultyFactor = Mathf.Clamp01(bossHP / 50000f) + bossLvl * 0.1f;
-        difficultyFactor = Mathf.Sqrt(difficultyFactor) * 0.75f;
-        int baseCrystal = Mathf.FloorToInt(difficultyFactor * 2f);
-        baseCrystal = Mathf.Clamp(baseCrystal, 0, 4);
-        int mvpCrystal = Mathf.Clamp(Mathf.FloorToInt(baseCrystal * 1.5f + 2f), 0, 6);
-
-
         for (int i = 0; i < array.Length; i++)
         {
             var userInfo = array[i];
             if (userInfo == null) continue;
 
+            var playerObj = GetPlayer(userInfo.m_nUID);
+            bool isDead = (playerObj != null && playerObj.isDead);
+
+            if (isDead)
+            {
+                userInfo.m_nGainCrystalInGame = 0;
+                continue;
+            }
+
             bool isMVP = (i == 0);
 
-            if (isMVP)
-                userInfo.m_nGainCrystalInGame = mvpCrystal;
-            else
-                userInfo.m_nGainCrystalInGame = baseCrystal;
+            // Use AddTotalDamageToBoss for consistent level-based scaling
+            int crystalReward = AddTotalDamageToBoss((int)bossLvl, isMVP);
 
+            userInfo.m_nGainCrystalInGame = crystalReward;
+
+            // Apply crystals to local player
             if (CGameNetManager.GetInstance().IsMe(userInfo.m_nId))
                 m_DataCenter.AddCrystal(userInfo.m_nGainCrystalInGame);
-
         }
 
         for (int k = 0; k < array.Length; k++)
@@ -3740,6 +3757,15 @@ public class iGameSceneBase
     {
         m_fCombatRatingData_DamageMy += ((!(dmg < curLife)) ? curLife : dmg);
     }
+
+    public int AddTotalDamageToBoss(int l, bool m)
+    {
+        int b = l < 10 ? 1 : 1 + ((l - 10) / 7);
+        if (b > 6) b = 6;
+        int c = b + 2; if (c > 9) c = 9;
+        return m ? c : b;
+    }
+
 
     public int CalcCombatRating()
     {

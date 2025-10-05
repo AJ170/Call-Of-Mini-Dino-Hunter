@@ -6,7 +6,7 @@ public class CAchievementInfo
 
 	public bool isDaily;
 
-	public int nType;
+	public SafeInteger nType;
 
 	public List<int> ltParam;
 

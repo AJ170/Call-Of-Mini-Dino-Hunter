@@ -27,12 +27,13 @@ public class iGameTaskUIBase : MonoBehaviour
 		}
 	}
 
-	private void Update()
-	{
-		UpdateTask(Time.deltaTime);
-	}
+    private void Update()
+    {
+        SafeTime.Update();
+        UpdateTask(SafeTime.DeltaTime);
+    }
 
-	public virtual void Initialize(CTaskBase taskbase)
+    public virtual void Initialize(CTaskBase taskbase)
 	{
 		m_GameScene = iGameApp.GetInstance().m_GameScene;
 		m_GameData = iGameApp.GetInstance().m_GameData;

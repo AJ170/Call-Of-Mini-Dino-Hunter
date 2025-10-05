@@ -27,11 +27,11 @@ public class TUICamera : MonoBehaviour
 		base.GetComponent<Camera>().nearClipPlane = -128f;
 		base.GetComponent<Camera>().farClipPlane = 128f;
 		base.GetComponent<Camera>().orthographic = true;
-		base.GetComponent<Camera>().depth = depth;
+		//base.GetComponent<Camera>().depth = depth;
 		base.GetComponent<Camera>().cullingMask = 1 << layer;
-		base.GetComponent<Camera>().clearFlags = CameraClearFlags.Depth;
+		//base.GetComponent<Camera>().clearFlags = CameraClearFlags.Depth;
 		this.layer = layer;
-		this.depth = depth;
+		//this.depth = depth;
 		width = Screen.width;
 		height = Screen.height;
 		m_viewRect = new Rect(0f, 0f, width, height);

@@ -4,13 +4,13 @@ public class TAudioController : MonoBehaviour
 {
 	public delegate void OnAudioEventPlay(ref string eventName);
 
-	public bool useAuidoEvent = true;
+	public bool useAudioEvent = true;
 
 	private OnAudioEventPlay onAudioEventPlay;
 
 	public void PlayAudio(string objName)
 	{
-		if (objName.Length < 1 || !useAuidoEvent)
+		if (objName.Length < 1 || !useAudioEvent)
 		{
 			return;
 		}

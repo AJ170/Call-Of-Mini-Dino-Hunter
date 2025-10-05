@@ -4,7 +4,7 @@ public class CAvatarInfo
 {
 	public int m_nID;
 
-	public int m_nType;
+	public SafeInteger m_nType;
 
 	public string m_sIcon = string.Empty;
 
@@ -18,9 +18,9 @@ public class CAvatarInfo
 
 	public bool m_bLinkChar;
 
-	public int m_nUnlockStageID;
+	public SafeInteger m_nUnlockStageID;
 
-	public int m_nUnlockHunterLvl;
+	public SafeInteger m_nUnlockHunterLvl;
 
 	public Dictionary<int, CAvatarInfoLevel> m_dictAvatarInfoLevel;
 

@@ -523,7 +523,7 @@ public class iGameApp
 		{
 			return false;
 		}
-		Dictionary<int, CAchievementData> achiDataData = dataCenter.GetAchiDataData();
+		Dictionary<SafeInteger, CAchievementData> achiDataData = dataCenter.GetAchiDataData();
 		if (achiDataData == null)
 		{
 			return false;
@@ -556,7 +556,7 @@ public class iGameApp
 		{
 			return false;
 		}
-		List<int> dailyTask = dataCenter.GetDailyTask();
+		List<SafeInteger> dailyTask = dataCenter.GetDailyTask();
 		if (dailyTask == null)
 		{
 			return false;
@@ -2058,14 +2058,14 @@ public class iGameApp
 					}
 				}
 			}
-			Dictionary<int, int> materialData = dataCenter.GetMaterialData();
-			if (materialData != null)
+            Dictionary<int, SafeInteger> materialData = dataCenter.GetMaterialData();
+            if (materialData != null)
 			{
 				iServerVerify.CServerConfigInfo serverConfigInfo2 = iServerVerify.GetInstance().GetServerConfigInfo();
 				if (serverConfigInfo2 != null && serverConfigInfo2.m_ltItemIDChange.Count > 0)
 				{
 					List<int> list = new List<int>();
-					foreach (KeyValuePair<int, int> item2 in materialData)
+					foreach (KeyValuePair<int, SafeInteger> item2 in materialData)
 					{
 						if (m_GameData.GetItemInfo(item2.Key) == null)
 						{

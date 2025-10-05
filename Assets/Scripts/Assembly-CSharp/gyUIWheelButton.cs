@@ -55,7 +55,7 @@ public class gyUIWheelButton : MonoBehaviour
             if (gameObject != null)
             {
                 gameObject.SetActive(false);
-                Debug.Log("Disabled gyUIWheelButton for PC platform: " + gameObject.name);
+                //Debug.Log("Disabled gyUIWheelButton for PC platform: " + gameObject.name);
                 return;
             }
         }

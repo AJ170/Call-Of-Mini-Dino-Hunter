@@ -97,9 +97,11 @@ public class CCharPlayer : CCharBase
 
     protected int[] m_arrCarryPassiveSkillLevel;
 
-    protected int m_nEquipStone;
+    protected SafeInteger m_nEquipStone;
 
     protected int m_nEquipStoneLevel;
+
+    protected double m_LastActiveSkillTime;
 
     protected int m_nCarryItemID;
 
@@ -107,15 +109,19 @@ public class CCharPlayer : CCharBase
 
     protected GameObject m_CarryBagObj;
 
-    protected int m_nCarryItemBuffSlot;
+    protected SafeInteger m_nCarryItemBuffSlot;
 
     protected CCharacterInfo m_curCharacterInfo;
 
     protected CCharacterInfoLevel m_curCharacterInfoLevel;
 
-    protected new int m_nLevel;
+    protected new SafeInteger m_nLevel;
 
-    protected int m_nExp;
+    protected SafeInteger m_nExp;
+
+    protected double m_NextHPRegenTime;
+
+    protected double m_NextAmmoRegenTime;
 
     protected float m_fRecoverLifeTime = 20f;
 
@@ -517,27 +523,26 @@ public class CCharPlayer : CCharBase
                 component2.nPrefabID = 1913;
             }
         }
+        double curTime = Time.realtimeSinceStartup;
+        m_NextHPRegenTime = curTime + m_fRecoverLifeTime;
+        m_NextAmmoRegenTime = curTime + m_fRecoverBulletTime;
     }
 
     public new void Update()
     {
-        if (!m_bActive)
-        {
-            return;
-        }
-        float num = Time.deltaTime * m_fTimeScale;
+        if (!m_bActive) return;
+
+        float deltaTime = Time.deltaTime * m_fTimeScale;
+
         if (m_Behavior != null)
-        {
-            m_Behavior.Update(this, num);
-        }
-        if (base.isDead || base.isStun)
-        {
-            return;
-        }
+            m_Behavior.Update(this, deltaTime);
+
+        if (base.isDead || base.isStun) return;
+
         base.Update();
         if (m_bBodyYaw)
         {
-            m_fDownBodyYawRate += m_fDownBodyYawSpeed * num;
+            m_fDownBodyYawRate += m_fDownBodyYawSpeed * deltaTime;
             if (m_fDownBodyYawRate >= 1f)
             {
                 m_bBodyYaw = false;
@@ -548,55 +553,53 @@ public class CCharPlayer : CCharBase
                 m_fDownBodyYaw = MyUtils.Lerp(m_fDownBodyYawSrc, m_fDownBodyYawDst, m_fDownBodyYawRate);
             }
         }
+
         if (m_BackPackAnimManager != null)
-        {
-            m_BackPackAnimManager.Update(num);
-        }
-        if (m_UseSkill != null && m_UseSkill.OnUpdate(this, num) != kUseSkillStatus.Executing)
+            m_BackPackAnimManager.Update(deltaTime);
+
+        if (m_UseSkill != null && m_UseSkill.OnUpdate(this, deltaTime) != kUseSkillStatus.Executing)
         {
             m_UseSkill.OnExit(this);
             m_UseSkill = null;
         }
+
         if (base.m_GameScene.GameStatus == iGameSceneBase.kGameStatus.Gameing)
         {
-            float value = m_Property.GetValue(kProEnum.Char_RecoverLife);
-            if (value > 0f)
+            double curTime = Time.realtimeSinceStartup;
+
+            float valueHP = m_Property.GetValue(kProEnum.Char_RecoverLife);
+            if (valueHP > 0f && curTime >= m_NextHPRegenTime)
             {
-                m_fRecoverLifeTimeCount += num;
-                if (m_fRecoverLifeTimeCount >= m_fRecoverLifeTime)
-                {
-                    m_fRecoverLifeTimeCount = 0f;
-                    AddHP(m_fHPMax * value / 100f);
-                    base.m_GameScene.AddHealText(m_fHPMax * value / 100f, GetBone(0).position);
-                }
+                AddHP(m_fHPMax * valueHP / 100f);
+                base.m_GameScene.AddHealText(m_fHPMax * valueHP / 100f, GetBone(0).position);
+                m_NextHPRegenTime = curTime + m_fRecoverLifeTime;
             }
-            float value2 = m_Property.GetValue(kProEnum.Char_RecoverBullet);
-            if (value2 > 0f)
+
+            float valueAmmo = m_Property.GetValue(kProEnum.Char_RecoverBullet);
+            if (valueAmmo > 0f && curTime >= m_NextAmmoRegenTime)
             {
-                m_fRecoverBulletTimeCount += num;
-                if (m_fRecoverBulletTimeCount >= m_fRecoverBulletTime)
+                for (int i = 0; i < 3; i++)
                 {
                     m_fRecoverBulletTimeCount = 0f;
-                    for (int i = 0; i < 3; i++)
+                    CWeaponBase weapon = base.m_GameState.GetWeapon(i);
+                    if (weapon != null && weapon.CurWeaponLvlInfo != null && weapon.CurWeaponLvlInfo.nType != 1)
                     {
-                        CWeaponBase weapon = base.m_GameState.GetWeapon(i);
-                        if (weapon != null && weapon.CurWeaponLvlInfo != null && weapon.CurWeaponLvlInfo.nType != 1)
+                        int ammo = Mathf.FloorToInt((float)weapon.BulletNumMax * valueAmmo / 100f);
+                        weapon.SetBullet(weapon.BulletNum + ammo);
+                        if (weapon == m_curWeapon)
                         {
-                            int num2 = Mathf.FloorToInt((float)weapon.BulletNumMax * value2 / 100f);
-                            weapon.SetBullet(weapon.BulletNum + num2);
-                            if (weapon == m_curWeapon)
-                            {
-                                weapon.RefreshBulletUI(this, true);
-                                base.m_GameScene.AddBulletText(num2, GetBone(0).position);
-                            }
+                            weapon.RefreshBulletUI(this, true);
+                            base.m_GameScene.AddBulletText(ammo, GetBone(0).position);
                         }
                     }
                 }
+                m_NextAmmoRegenTime = curTime + m_fRecoverBulletTime;
             }
         }
+
         if (m_fCurAnimMixCount > 0f)
         {
-            m_fCurAnimMixCount -= num;
+            m_fCurAnimMixCount -= deltaTime;
             if (m_fCurAnimMixCount <= 0f)
             {
                 m_fCurAnimMixCount = 0f;
@@ -2152,9 +2155,9 @@ public class CCharPlayer : CCharBase
         }
         float num = m_Property.GetValue(kProEnum.All_Speed);
         float num2 = 0f;
-        Debug.Log(">>> Attack Mode: " + weaponlevelinfo.nAttackMode);
-        Debug.Log(">>> Weapon Type: " + weaponlevelinfo.nType);
-        Debug.Log(">>> Base fShootSpeed: " + weaponlevelinfo.fShootSpeed);
+        //Debug.Log(">>> Attack Mode: " + weaponlevelinfo.nAttackMode);
+        //Debug.Log(">>> Weapon Type: " + weaponlevelinfo.nType);
+        //Debug.Log(">>> Base fShootSpeed: " + weaponlevelinfo.fShootSpeed);
         switch (weaponlevelinfo.nAttackMode)
         {
             case 1:
@@ -2197,7 +2200,7 @@ public class CCharPlayer : CCharBase
         }
         float num3 = weaponlevelinfo.fShootSpeed * (1f - num / 100f);
 
-        Debug.Log(">>> Final CalcWeaponShootSpeed result: " + num3);
+        //Debug.Log(">>> Final CalcWeaponShootSpeed result: " + num3);
         return num3;
     }
 
@@ -2564,7 +2567,7 @@ public class CCharPlayer : CCharBase
         return !m_bHurting && !m_bBeatBack && !base.isDead && !m_bBumping && !m_bStun;
     }
 
-    public virtual void AddExp(int nExp)
+    public virtual void AddExp(SafeInteger nExp)
     {
     }
 

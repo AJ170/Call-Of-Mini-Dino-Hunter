@@ -303,7 +303,7 @@ public class Scene_CoopMainMenu : MonoBehaviour
         {
             if (m_event.GetControlSuccess())
             {
-                DoSceneChange(m_event.GetWparam(), "Scene_IAP");
+                //DoSceneChange(m_event.GetWparam(), "Scene_IAP");
                 return;
             }
             m_fade_in_time = 0f;
@@ -314,7 +314,7 @@ public class Scene_CoopMainMenu : MonoBehaviour
         {
             if (m_event.GetControlSuccess())
             {
-                DoSceneChange(m_event.GetWparam(), "Scene_Gold");
+                //DoSceneChange(m_event.GetWparam(), "Scene_Gold");
                 return;
             }
             m_fade_in_time = 0f;

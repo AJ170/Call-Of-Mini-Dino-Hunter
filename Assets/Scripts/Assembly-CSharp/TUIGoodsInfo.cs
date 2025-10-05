@@ -1,16 +1,16 @@
 public class TUIGoodsInfo
 {
-	public int id;
+	public SafeInteger id;
 
 	public GoodsQualityType quality;
 
 	public string name = string.Empty;
 
-	public int count;
+	public SafeInteger count;
 
 	public TUIPriceInfo price_info;
 
-	public TUIGoodsInfo(int m_id, GoodsQualityType m_quality, string m_name, int m_count, TUIPriceInfo m_price_info)
+	public TUIGoodsInfo(int m_id, GoodsQualityType m_quality, string m_name, SafeInteger m_count, TUIPriceInfo m_price_info)
 	{
 		id = m_id;
 		quality = m_quality;
@@ -26,7 +26,7 @@ public class TUIGoodsInfo
 		name = m_name;
 	}
 
-	public void SetCount(int m_count)
+	public void SetCount(SafeInteger m_count)
 	{
 		count = m_count;
 	}

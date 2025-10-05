@@ -1,147 +1,140 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class CWeaponInfoLevel
 {
-	public int nLevel;
+    public int nLevel;
+    public int nType;
+    public int nElementType;
+    public int nActionType;
+    public int nModel;
+    public int nFire;
+    public int nBullet;
+    public int nHit;
+    public string sAudioFire = string.Empty;
 
-	public int nType;
+    public int nAttackMode;
 
-	public int nElementType;
+    public List<SafeFloat> ltAttackModeValue;
 
-	public int nActionType;
+    public string sName = string.Empty;
+    public string sDesc = string.Empty;
+    public string sIcon = string.Empty;
 
-	public int nModel;
+    public float fShootSpeed = new float();
+    public float fMSDownRateShoot;
+    public float fMSDownRateEquip;
+    public float fPrecise = 1f;
 
-	public int nFire;
+    public int nCapacity = new int();
 
-	public int nBullet;
+    public int[] arrFunc = new int[3];
+    public int[] arrValueX = new int[3];
+    public int[] arrValueY = new int[3];
 
-	public int nHit;
+    public SafeFloat fDamage = new SafeFloat();
+    public SafeFloat fCritical = new SafeFloat();
+    public SafeFloat fCriticalDmg = new SafeFloat();
 
-	public string sAudioFire = string.Empty;
+    public float fElementUp;
+    public List<int> ltElementUpMonster = new List<int>();
+    public float fElementDown;
+    public List<int> ltElementDownMonster = new List<int>();
 
-	public int nAttackMode;
+    public List<SafeInteger> ltMaterials;
+    public List<SafeInteger> ltMaterialsCount;
 
-	public List<float> ltAttackModeValue;
+    public bool isCrystalPurchase;
+    public SafeInteger nPurchasePrice = new SafeInteger();
 
-	public string sName = string.Empty;
+    public string sLevelUpDesc = string.Empty;
 
-	public string sDesc = string.Empty;
+    public CWeaponInfoLevel()
+    {
+        ltAttackModeValue = new List<SafeFloat>();
 
-	public string sIcon = string.Empty;
+        nBullet = -1;
+        nFire = -1;
+        nHit = -1;
 
-	public float fShootSpeed;
+        ltMaterials = new List<SafeInteger>();
+        ltMaterialsCount = new List<SafeInteger>();
+    }
 
-	public float fMSDownRateShoot;
+    public bool GetAtkModeValue(int nIndex, ref float fValue)
+    {
+        fValue = 0f;
+        if (ltAttackModeValue == null || nIndex < 0 || nIndex >= ltAttackModeValue.Count)
+            return false;
 
-	public float fMSDownRateEquip;
+        if (ltAttackModeValue[nIndex] == null)
+            ltAttackModeValue[nIndex] = new SafeFloat();
 
-	public float fPrecise = 1f;
+        fValue = ltAttackModeValue[nIndex].Get();
+        return true;
+    }
 
-	public int nCapacity;
+    public bool GetAtkModeValue(int nIndex, ref int nValue)
+    {
+        nValue = 0;
+        if (ltAttackModeValue == null || nIndex < 0 || nIndex >= ltAttackModeValue.Count)
+            return false;
 
-	public int[] arrFunc;
+        if (ltAttackModeValue[nIndex] == null)
+            ltAttackModeValue[nIndex] = new SafeFloat();
 
-	public int[] arrValueX;
+        nValue = (int)ltAttackModeValue[nIndex].Get();
+        return true;
+    }
 
-	public int[] arrValueY;
+    public float GetElementValue(int nMobID)
+    {
+        if (ltElementUpMonster != null)
+        {
+            for (int i = 0; i < ltElementUpMonster.Count; i++)
+            {
+                if (nMobID == ltElementUpMonster[i])
+                    return fElementUp;
+            }
+        }
 
-	public float fDamage;
+        if (ltElementDownMonster != null)
+        {
+            for (int i = 0; i < ltElementDownMonster.Count; i++)
+            {
+                if (nMobID == ltElementDownMonster[i])
+                    return fElementDown;
+            }
+        }
 
-	public float fCritical;
+        return 0f;
+    }
 
-	public float fCriticalDmg;
+    public float CalcDPS()
+    {
+        float fValue = 0f;
 
-	public float fElementUp;
+        if (nAttackMode == 5)
+        {
+            GetAtkModeValue(2, ref fValue);
+        }
+        else
+        {
+            fValue = fShootSpeed;
+        }
 
-	public List<int> ltElementUpMonster;
+        return (fValue != 0f) ? (fDamage.Get() / fValue) : fDamage.Get();
+    }
 
-	public float fElementDown;
+    public void InitializeMaterials(int count)
+    {
+        if (ltMaterials == null) ltMaterials = new List<SafeInteger>();
+        if (ltMaterialsCount == null) ltMaterialsCount = new List<SafeInteger>();
 
-	public List<int> ltElementDownMonster;
+        while (ltMaterials.Count < count)
+            ltMaterials.Add(new SafeInteger());
 
-	public List<int> ltMaterials;
-
-	public List<int> ltMaterialsCount;
-
-	public bool isCrystalPurchase;
-
-	public int nPurchasePrice;
-
-	public string sLevelUpDesc = string.Empty;
-
-	public CWeaponInfoLevel()
-	{
-		ltAttackModeValue = new List<float>();
-		sAudioFire = string.Empty;
-		nBullet = -1;
-		nFire = -1;
-		nHit = -1;
-		arrFunc = new int[3];
-		arrValueX = new int[3];
-		arrValueY = new int[3];
-		ltElementUpMonster = new List<int>();
-		ltElementDownMonster = new List<int>();
-		ltMaterials = new List<int>();
-		ltMaterialsCount = new List<int>();
-	}
-
-	public bool GetAtkModeValue(int nIndex, ref float fValue)
-	{
-		if (nIndex < 0 || nIndex >= ltAttackModeValue.Count)
-		{
-			return false;
-		}
-		fValue = ltAttackModeValue[nIndex];
-		return true;
-	}
-
-	public bool GetAtkModeValue(int nIndex, ref int nValue)
-	{
-		if (nIndex < 0 || nIndex >= ltAttackModeValue.Count)
-		{
-			return false;
-		}
-		nValue = (int)ltAttackModeValue[nIndex];
-		return true;
-	}
-
-	public float GetElementValue(int nMobID)
-	{
-		if (ltElementUpMonster != null)
-		{
-			for (int i = 0; i < ltElementUpMonster.Count; i++)
-			{
-				if (nMobID == ltElementUpMonster[i])
-				{
-					return fElementUp;
-				}
-			}
-		}
-		if (ltElementDownMonster != null)
-		{
-			for (int j = 0; j < ltElementDownMonster.Count; j++)
-			{
-				if (nMobID == ltElementDownMonster[j])
-				{
-					return fElementDown;
-				}
-			}
-		}
-		return 0f;
-	}
-
-	public float CalcDPS()
-	{
-		float fValue = 0f;
-		if (nAttackMode == 5)
-		{
-			GetAtkModeValue(2, ref fValue);
-		}
-		else
-		{
-			fValue = fShootSpeed;
-		}
-		return (fValue != 0f) ? (fDamage / fValue) : fDamage;
-	}
+        while (ltMaterialsCount.Count < count)
+            ltMaterialsCount.Add(new SafeInteger());
+    }
 }

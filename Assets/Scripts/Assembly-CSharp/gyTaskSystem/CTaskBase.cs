@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using UnityEngine;
+
 namespace gyTaskSystem
 {
 	public class CTaskBase
@@ -18,7 +21,13 @@ namespace gyTaskSystem
 
 		protected float m_fTaskTime;
 
-		public bool isCompleted
+        protected float m_lastRealTime;
+        protected float m_safeDeltaAvg;
+        protected const int SmoothFrames = 5;  // average over last 5 frames
+        protected const float MaxDeltaPerFrame = 0.05f; // max 50ms per frame
+        protected Queue<float> m_deltaHistory = new Queue<float>();
+
+        public bool isCompleted
 		{
 			get
 			{
@@ -65,39 +74,56 @@ namespace gyTaskSystem
 		{
 		}
 
-		public virtual void Reset()
+        public virtual void Reset()
+        {
+            for (int i = 0; i < m_curTaskInfo.arrFail.Length; i++)
+            {
+                if (m_curTaskInfo.arrFail[i] == 1)
+                {
+                    m_curTaskInfo.GetFailValue(i, ref m_fTaskTime);
+                    break;
+                }
+            }
+            isUpdateData = true;
+            m_State = State.Proccessing;
+            m_lastRealTime = Time.realtimeSinceStartup;
+        }
+
+        public virtual void ResetState()
 		{
-			for (int i = 0; i < m_curTaskInfo.arrFail.Length; i++)
-			{
-				if (m_curTaskInfo.arrFail[i] == 1)
-				{
-					m_curTaskInfo.GetFailValue(i, ref m_fTaskTime);
-					break;
-				}
-			}
-			isUpdateData = true;
 			m_State = State.Proccessing;
 		}
 
-		public virtual void ResetState()
-		{
-			m_State = State.Proccessing;
-		}
+        public virtual void Update(float deltaTime)
+        {
+            if (!isCompleted && !isFailed && m_fTaskTime > 0f)
+            {
+                float now = Time.realtimeSinceStartup;
+                float frameDelta = now - m_lastRealTime;
+                m_lastRealTime = now;
 
-		public virtual void Update(float deltaTime)
-		{
-			if (!isCompleted && !isFailed && m_fTaskTime > 0f)
-			{
-				m_fTaskTime -= deltaTime;
-				if (m_fTaskTime <= 0f)
-				{
-					m_fTaskTime = 0f;
-					OnTaskLimitTimeOver();
-				}
-			}
-		}
+                frameDelta = Mathf.Min(frameDelta, MaxDeltaPerFrame);
 
-		public void TaskCompleted()
+                m_deltaHistory.Enqueue(frameDelta);
+                if (m_deltaHistory.Count > SmoothFrames)
+                    m_deltaHistory.Dequeue();
+
+                m_safeDeltaAvg = 0f;
+                foreach (float d in m_deltaHistory)
+                    m_safeDeltaAvg += d;
+                m_safeDeltaAvg /= m_deltaHistory.Count;
+
+                m_fTaskTime -= m_safeDeltaAvg;
+
+                if (m_fTaskTime <= 0f)
+                {
+                    m_fTaskTime = 0f;
+                    OnTaskLimitTimeOver();
+                }
+            }
+        }
+
+        public void TaskCompleted()
 		{
 			m_State = State.Completed;
 			OnTaskCompleted();

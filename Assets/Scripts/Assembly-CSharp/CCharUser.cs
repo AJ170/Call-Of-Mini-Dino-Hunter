@@ -1,6 +1,7 @@
 using gyAchievementSystem;
 using gyEvent;
 using gyTaskSystem;
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
@@ -32,7 +33,9 @@ public class CCharUser : CCharPlayer
 
     protected float m_fSkillCDcount;
 
-    protected int m_nCurWeaponIndex;
+    private double m_lastSkillUseTimeMs;
+
+    protected SafeInteger m_nCurWeaponIndex;
 
     protected bool m_bCarryTaskItem;
 
@@ -126,14 +129,13 @@ public class CCharUser : CCharPlayer
                 skillCDButton.m_bPause = base.m_GameScene.isPause;
             }
         }
-        if (!base.m_GameScene.isPause && m_fSkillCDcount < m_fSkillCD)
+        if (!base.m_GameScene.isPause)
         {
-            m_fSkillCDcount += deltaTime;
-            if (m_fSkillCDcount > m_fSkillCD)
-            {
-                m_fSkillCDcount = m_fSkillCD;
-            }
+            double now = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
+            double elapsed = now - m_lastSkillUseTimeMs;
+            m_fSkillCDcount = Mathf.Min((float)(elapsed / 1000f), m_fSkillCD);
         }
+
         if (!CGameNetManager.GetInstance().IsConnected())
         {
             return;
@@ -169,64 +171,69 @@ public class CCharUser : CCharPlayer
     {
         base.FixedUpdate();
         float deltaTime = Time.deltaTime;
+
         if (m_CharMoveState == kCharMoveState.None)
-        {
             return;
-        }
+
         if (m_CharMoveState == kCharMoveState.Acc)
         {
             if (m_fCurSpeed < m_fCurSpeedMax)
             {
                 m_fCurSpeed += m_Property.GetValue(kProEnum.MoveSpeedAcc) * deltaTime;
                 if (m_fCurSpeed >= m_fCurSpeedMax)
-                {
                     m_fCurSpeed = m_fCurSpeedMax;
-                }
             }
             if (m_fCurSpeedSide < m_fCurSpeedSideMax)
             {
                 m_fCurSpeedSide += m_Property.GetValue(kProEnum.MoveSpeedAcc) * deltaTime;
                 if (m_fCurSpeedSide >= m_fCurSpeedSideMax)
-                {
                     m_fCurSpeedSide = m_fCurSpeedSideMax;
-                }
             }
             if (m_fCurSpeed == m_fCurSpeedMax && m_fCurSpeedSide == m_fCurSpeedSideMax)
-            {
                 m_CharMoveState = kCharMoveState.Max;
-            }
         }
-        float num = 0f;
+
+        float msReduction = 0f;
         if (m_Property.GetValue(kProEnum.Char_MSEquip_Off) == 0f && m_curWeapon != null && m_curWeaponLvlInfo != null)
         {
-            num = m_curWeaponLvlInfo.fMSDownRateEquip;
+            msReduction = m_curWeaponLvlInfo.fMSDownRateEquip;
             if (m_curWeapon.IsFire())
-            {
-                num += m_curWeaponLvlInfo.fMSDownRateShoot;
-            }
+                msReduction += m_curWeaponLvlInfo.fMSDownRateShoot;
         }
-        float num2 = m_Property.GetValue(kProEnum.Char_MoveSpeedUp);
-        if (num2 < 0f)
+
+        float msBonus = Mathf.Max(0f, m_Property.GetValue(kProEnum.Char_MoveSpeedUp));
+
+        Vector2 input = m_v2MoveDir;
+        if (input != Vector2.zero)
         {
-            num2 = 0f;
+            float absX = Mathf.Abs(input.x);
+            float absY = Mathf.Abs(input.y);
+            float max = Mathf.Max(absX, absY);
+
+            if (max > 1f) max = 1f;
+            input.x = input.x / max;
+            input.y = input.y / max;
+
+            m_v2Move.x = (m_fCurSpeedSide + msBonus) * input.x * (1f - msReduction);
+            m_v2Move.y = (m_fCurSpeed + msBonus) * input.y * (1f - msReduction);
         }
-        m_v2Move = Vector2.zero;
-        if (m_v2MoveDir.x != 0f)
+        else
         {
-            m_v2Move.x = (m_fCurSpeedSide + num2) * (float)((m_v2MoveDir.x > 0f) ? 1 : (-1)) * (1f - num);
+            m_v2Move = Vector2.zero;
         }
-        if (m_v2MoveDir.y != 0f)
-        {
-            m_v2Move.y = (m_fCurSpeed + num2) * (float)((m_v2MoveDir.y > 0f) ? 1 : (-1)) * (1f - num);
-        }
+
         m_v2Move *= deltaTime;
-        Vector3 zero = Vector3.zero;
-        zero += m_ModelTransform.forward * m_v2Move.y;
-        zero += m_ModelTransform.right * m_v2Move.x;
-        Vector3 position = m_ModelTransform.position;
-        zero.y = -1f * deltaTime;
-        CollisionFlags collisionFlags = m_Controller.Move(zero);
-        m_bUpdatePos = true;
+
+        Vector3 moveVector = Vector3.zero;
+        moveVector += m_ModelTransform.forward * m_v2Move.y;
+        moveVector += m_ModelTransform.right * m_v2Move.x;
+        moveVector.y = -1f * deltaTime;
+
+        if (m_Controller != null && m_Controller.enabled && m_Controller.gameObject.activeInHierarchy)
+        {
+            m_Controller.Move(moveVector);
+            m_bUpdatePos = true;
+        }
     }
 
     public new void LateUpdate()
@@ -249,27 +256,14 @@ public class CCharUser : CCharPlayer
         if (fRateX != 0f || fRateY != 0f)
         {
             m_v2MoveDir = new Vector2(fRateX, fRateY);
-            m_fCurSpeedMax = m_Property.GetValue(kProEnum.MoveSpeed) * Mathf.Abs(fRateY);
-            m_fCurSpeedSideMax = m_Property.GetValue(kProEnum.MoveSpeed) * Mathf.Abs(fRateX);
-            UpdateMoveAnim(m_v2MoveDir);
+            Vector2 clampedDir = m_v2MoveDir.normalized;
+            float baseSpeed = m_Property.GetValue(kProEnum.MoveSpeed);
+            m_fCurSpeedMax = baseSpeed * Mathf.Abs(clampedDir.y);
+            m_fCurSpeedSideMax = baseSpeed * Mathf.Abs(clampedDir.x);
+            m_fCurSpeed = m_fCurSpeedMax;
+            m_fCurSpeedSide = m_fCurSpeedSideMax;
+            UpdateMoveAnim(clampedDir);
             m_CharMoveState = kCharMoveState.Max;
-            if (m_CharMoveState == kCharMoveState.Max)
-            {
-                m_fCurSpeed = m_fCurSpeedMax;
-                m_fCurSpeedSide = m_fCurSpeedSideMax;
-            }
-            if (m_fCurSpeed > m_fCurSpeedMax)
-            {
-                m_fCurSpeed = m_fCurSpeedMax;
-            }
-            if (m_fCurSpeedSide > m_fCurSpeedSideMax)
-            {
-                m_fCurSpeedSide = m_fCurSpeedSideMax;
-            }
-            if (m_fCurSpeed == m_fCurSpeedMax && m_fCurSpeedSide == m_fCurSpeedSideMax)
-            {
-                m_CharMoveState = kCharMoveState.Max;
-            }
         }
     }
 
@@ -422,14 +416,15 @@ public class CCharUser : CCharPlayer
         {
             return;
         }
+        if (!CanFire())
+            bFire = false;
+
+        if (m_curWeapon == null) return;
+
         if (bFire)
-        {
             m_curWeapon.Fire(this);
-        }
         else
-        {
             m_curWeapon.Stop(this);
-        }
         if (m_curWeaponLvlInfo.nAttackMode == 2)
         {
             iCameraTrail iCameraTrail2 = base.m_GameScene.GetCamera();
@@ -443,6 +438,18 @@ public class CCharUser : CCharPlayer
             CGameNetSender.GetInstance().SendMsg_PLAYER_SHOOT(bFire);
         }
     }
+
+    private bool CanFire()
+    {
+        if (m_GameScene == null)
+            return false;
+
+        if (isDead || m_GameScene.isWaitingRevive)
+            return false;
+
+        return true;
+    }
+
 
     public bool IsFire()
     {
@@ -546,7 +553,7 @@ public class CCharUser : CCharPlayer
         return base.OnHit(fDmg, pWeaponLvlInfo, sBodyPart);
     }
 
-    public override void AddExp(int nExp)
+    public override void AddExp(SafeInteger nExp)
     {
         if (m_curCharacterInfo == null || nExp == 0 || m_curCharacterInfo.IsMaxLevel(base.Level))
         {
@@ -621,11 +628,11 @@ public class CCharUser : CCharPlayer
         }
     }
 
-    public void AddGold(int nGold)
+    public void AddGold(SafeInteger nGold)
     {
     }
 
-    public void LevelUp(ref int nExp, ref int nLevel)
+    public void LevelUp(ref SafeInteger nExp, ref SafeInteger nLevel)
     {
         CCharacterInfoLevel characterInfo = base.m_GameData.GetCharacterInfo(base.ID, nLevel);
         if (characterInfo == null)
@@ -722,26 +729,25 @@ public class CCharUser : CCharPlayer
 
     public override void UseSkill(int nSkill, int nSkillLevel)
     {
+        double now = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
+
+        if (now - m_lastSkillUseTimeMs < m_fSkillCD * 1000)
+            return;
+
+        m_lastSkillUseTimeMs = now;
         base.UseSkill(nSkill, nSkillLevel);
         m_fSkillCD = m_curCharacterInfoLevel.fSkillCD;
         CSkillPro skillPro = m_Property.GetSkillPro(nSkill);
-        if (skillPro != null)
-        {
-            m_fSkillCD -= skillPro.fCDDown;
-        }
+        if (skillPro != null) m_fSkillCD -= skillPro.fCDDown;
         float value = m_Property.GetValue(kProEnum.Skill_CD_Faster);
         float value2 = m_Property.GetValue(kProEnum.Skill_CD_Faster_Rate);
         m_fSkillCD = m_fSkillCD * (1f - value2 / 100f) - value;
         m_fSkillCDcount = 0f;
         iGameUIBase gameUI = base.m_GameScene.GetGameUI();
-        if (gameUI != null)
-        {
-            gameUI.SetSkillCD(m_fSkillCD);
-        }
+        if (gameUI != null) gameUI.SetSkillCD(m_fSkillCD);
+
         if (CGameNetManager.GetInstance().IsConnected())
-        {
             CGameNetSender.GetInstance().SendMsg_PLAYER_USESKILL(nSkill, nSkillLevel);
-        }
     }
 
     public bool IsSkillCD()

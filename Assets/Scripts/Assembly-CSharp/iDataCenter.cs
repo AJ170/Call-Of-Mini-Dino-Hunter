@@ -51,21 +51,21 @@ public class iDataCenter
 
     protected SafeInteger m_nStashLevel;
 
-    protected int m_nCrystalTotalGain;
+    protected SafeInteger m_nCrystalTotalGain;
 
-    protected int m_nCrystalTotalConsume;
+    protected SafeInteger m_nCrystalTotalConsume;
 
-    protected Dictionary<int, int> m_dictMaterials;
+    protected Dictionary<int, SafeInteger> m_dictMaterials;
 
-    protected Dictionary<int, int> m_dictWeapon;
+    protected Dictionary<int, SafeInteger> m_dictWeapon;
 
     protected Dictionary<int, int> m_dictEquipStone;
 
-    protected Dictionary<int, int> m_dictSkill;
+    protected Dictionary<int, SafeInteger> m_dictSkill;
 
     protected Dictionary<int, int> m_dictPassiveSkill;
 
-    protected Dictionary<int, int> m_dictAvatar;
+    protected Dictionary<int, SafeInteger> m_dictAvatar;
 
     protected Dictionary<int, CCharSaveInfo> m_dictCharSaveInfo;
 
@@ -73,17 +73,17 @@ public class iDataCenter
 
     protected List<CIAPTransactionInfo> m_ltIAPTransactionInfo;
 
-    protected List<int> m_ltFreeWeapon;
+    protected List<SafeInteger> m_ltFreeWeapon;
 
-    protected Dictionary<int, CAchievementData> m_dictAchievementData;
+    protected Dictionary<SafeInteger, CAchievementData> m_dictAchievementData;
 
     protected DateTime m_lastLoginTime;
 
-    protected int m_nDailyRewardCount;
+    protected SafeInteger m_nDailyRewardCount;
 
-    protected int m_nDailyRewardHasGot;
+    protected SafeInteger m_nDailyRewardHasGot;
 
-    protected List<int> m_ltDailyTask;
+    protected List<SafeInteger> m_ltDailyTask;
 
     protected bool m_bMusic;
 
@@ -103,23 +103,23 @@ public class iDataCenter
 
     protected int m_nEnterAppCount;
 
-    protected Dictionary<int, int> m_dictWeaponSign;
+    protected Dictionary<int, SafeInteger> m_dictWeaponSign;
 
-    protected Dictionary<int, int> m_dictEquipStoneSign;
+    protected Dictionary<int, SafeInteger> m_dictEquipStoneSign;
 
-    protected Dictionary<int, int> m_dictSkillSign;
+    protected Dictionary<int, SafeInteger> m_dictSkillSign;
 
-    protected Dictionary<int, int> m_dictCharacterSign;
+    protected Dictionary<int, SafeInteger> m_dictCharacterSign;
 
-    protected Dictionary<int, int> m_dictAvatarSign;
+    protected Dictionary<int, SafeInteger> m_dictAvatarSign;
 
     protected int m_nCurCharID;
 
     protected int[] m_arrSelectWeapon;
 
-    protected Dictionary<int, int[]> m_dictSelectPassiveSkill;
+    protected Dictionary<int, SafeInteger[]> m_dictSelectPassiveSkill;
 
-    protected int m_nCurEquipStone;
+    protected SafeInteger m_nCurEquipStone;
 
     protected SafeInteger m_nAvatarHead;
 
@@ -143,15 +143,15 @@ public class iDataCenter
 
     protected bool m_bUnLockLevel;
 
-    protected List<int> m_ltLevelList;
+    protected List<SafeInteger> m_ltLevelList;
 
     protected bool m_bFirstTimePlay;
 
-    protected Dictionary<int, int> m_dictWorldMonsterKill;
+    protected Dictionary<int, SafeInteger> m_dictWorldMonsterKill;
 
     protected List<int> m_ltTitle;
 
-    protected Dictionary<int, int> m_dictKillMonster;
+    protected Dictionary<int, SafeInteger> m_dictKillMonster;
 
     protected SafeInteger m_MVPCount;
 
@@ -728,13 +728,13 @@ public class iDataCenter
         m_nCrystal = new SafeInteger();
         m_ltCrystalInBackground = new List<CCrystalInBackground>();
         m_nStashLevel = new SafeInteger();
-        m_dictMaterials = new Dictionary<int, int>();
-        m_dictWeapon = new Dictionary<int, int>();
+        m_dictMaterials = new Dictionary<int, SafeInteger>();
+        m_dictWeapon = new Dictionary<int, SafeInteger>();
         m_dictEquipStone = new Dictionary<int, int>();
         m_dictPassiveSkill = new Dictionary<int, int>();
         m_dictCharSaveInfo = new Dictionary<int, CCharSaveInfo>();
-        m_dictSkill = new Dictionary<int, int>();
-        m_dictAvatar = new Dictionary<int, int>();
+        m_dictSkill = new Dictionary<int, SafeInteger>();
+        m_dictAvatar = new Dictionary<int, SafeInteger>();
         m_nAvatarHead = new SafeInteger();
         m_nAvatarUpper = new SafeInteger();
         m_nAvatarLower = new SafeInteger();
@@ -743,25 +743,25 @@ public class iDataCenter
         m_nAvatarWrist = new SafeInteger();
         m_nAvatarBadge = new SafeInteger();
         m_nAvatarStone = new SafeInteger();
-        m_dictWeaponSign = new Dictionary<int, int>();
-        m_dictEquipStoneSign = new Dictionary<int, int>();
-        m_dictSkillSign = new Dictionary<int, int>();
-        m_dictCharacterSign = new Dictionary<int, int>();
-        m_dictAvatarSign = new Dictionary<int, int>();
+        m_dictWeaponSign = new Dictionary<int, SafeInteger>();
+        m_dictEquipStoneSign = new Dictionary<int, SafeInteger>();
+        m_dictSkillSign = new Dictionary<int, SafeInteger>();
+        m_dictCharacterSign = new Dictionary<int, SafeInteger>();
+        m_dictAvatarSign = new Dictionary<int, SafeInteger>();
         m_arrSelectWeapon = new int[3] { 2, 1, -1 };
-        m_dictSelectPassiveSkill = new Dictionary<int, int[]>();
+        m_dictSelectPassiveSkill = new Dictionary<int, SafeInteger[]>();
         m_ltLevelSaveInfo = new List<CLevelSaveInfo>();
-        m_ltLevelList = new List<int>();
+        m_ltLevelList = new List<SafeInteger>();
         for (int i = 1001; i <= 1024; i++)
         {
             m_ltLevelList.Add(i);
         }
         m_ltIAPTransactionInfo = new List<CIAPTransactionInfo>();
         m_ltUnlockSign = new List<CUnlockSign>();
-        m_dictAchievementData = new Dictionary<int, CAchievementData>();
-        m_ltFreeWeapon = new List<int>();
-        m_ltDailyTask = new List<int>();
-        m_dictWorldMonsterKill = new Dictionary<int, int>();
+        m_dictAchievementData = new Dictionary<SafeInteger, CAchievementData>();
+        m_ltFreeWeapon = new List<SafeInteger>();
+        m_ltDailyTask = new List<SafeInteger>();
+        m_dictWorldMonsterKill = new Dictionary<int, SafeInteger>();
         m_nHunterLvl = new SafeInteger();
         m_nHunterExp = new SafeInteger();
         m_nHunterExpTotal = new SafeInteger();
@@ -770,7 +770,7 @@ public class iDataCenter
         m_nTitle = new SafeInteger();
         m_ltFriends = new List<string>();
         m_ltTitle = new List<int>();
-        m_dictKillMonster = new Dictionary<int, int>();
+        m_dictKillMonster = new Dictionary<int, SafeInteger>();
         m_MVPCount = new SafeInteger();
         m_ReviveInCoopCount = new SafeInteger();
         m_DeadInCoopCount = new SafeInteger();
@@ -878,8 +878,17 @@ public class iDataCenter
         //outerXML = XXTEAUtils.Encrypt(outerXML, iServerConfigData.GetInstance().m_sServerInfoKey);
         outerXML = XXTEAUtils.Encrypt(outerXML, ServerX.SaveEncryptionKey);
         MyUtils.ZipString(outerXML, ref outerXML);
-        string filename = Utils.SavePath() + "/gamedata.xml";
-        File.WriteAllText(filename, outerXML);
+
+        string saveDir = Utils.SavePath();
+        if (!Directory.Exists(saveDir))
+            Directory.CreateDirectory(saveDir);
+
+        string tempFile = saveDir + "/gamedata-temp.xml";
+        string targetFile = saveDir + "/gamedata.xml";
+
+        File.WriteAllText(tempFile, outerXML);
+
+        if (File.Exists(targetFile)) File.Replace(tempFile, targetFile, null); else File.Move(tempFile, targetFile);
     }
 
     protected void SaveData(XmlDocument doc)
@@ -927,13 +936,13 @@ public class iDataCenter
             xmlElement.SetAttribute("photo", Convert.ToBase64String(m_Photo));
         }
         empty = string.Empty;
-        foreach (KeyValuePair<int, int> item in m_dictKillMonster)
+        foreach (KeyValuePair<int, SafeInteger> item in m_dictKillMonster)
         {
             empty = ((empty.Length >= 1) ? (empty + "," + item.Key + "," + item.Value) : (item.Key + "," + item.Value));
         }
         xmlElement.SetAttribute("killmonster", empty);
         empty = string.Empty;
-        foreach (KeyValuePair<int, int> item2 in m_dictWorldMonsterKill)
+        foreach (KeyValuePair<int, SafeInteger> item2 in m_dictWorldMonsterKill)
         {
             empty = ((empty.Length >= 1) ? (empty + "," + item2.Key + "," + item2.Value) : (item2.Key + "," + item2.Value));
         }
@@ -976,7 +985,7 @@ public class iDataCenter
             empty = ((empty.Length >= 1) ? (empty + "," + num) : num.ToString());
         }
         xmlElement6.SetAttribute("select", empty);
-        foreach (KeyValuePair<int, int> item4 in m_dictWeapon)
+        foreach (KeyValuePair<int, SafeInteger> item4 in m_dictWeapon)
         {
             XmlElement xmlElement7 = doc.CreateElement("node");
             xmlElement6.AppendChild(xmlElement7);
@@ -993,7 +1002,7 @@ public class iDataCenter
         xmlElement8.SetAttribute("avatarwrist", AvatarWrist.ToString());
         xmlElement8.SetAttribute("avatarbadge", AvatarBadge.ToString());
         xmlElement8.SetAttribute("avatarstone", AvatarStone.ToString());
-        foreach (KeyValuePair<int, int> item5 in m_dictAvatar)
+        foreach (KeyValuePair<int, SafeInteger> item5 in m_dictAvatar)
         {
             XmlElement xmlElement9 = doc.CreateElement("node");
             xmlElement8.AppendChild(xmlElement9);
@@ -1002,13 +1011,13 @@ public class iDataCenter
         }
         XmlElement xmlElement10 = doc.CreateElement("skill");
         xmlElement.AppendChild(xmlElement10);
-        foreach (KeyValuePair<int, int[]> item6 in m_dictSelectPassiveSkill)
+        foreach (KeyValuePair<int, SafeInteger[]> item6 in m_dictSelectPassiveSkill)
         {
             XmlElement xmlElement11 = doc.CreateElement("selectnode");
             xmlElement10.AppendChild(xmlElement11);
             xmlElement11.SetAttribute("charid", item6.Key.ToString());
             empty = string.Empty;
-            int[] value = item6.Value;
+            SafeInteger[] value = item6.Value;
             for (int k = 0; k < value.Length; k++)
             {
                 int num2 = value[k];
@@ -1023,7 +1032,7 @@ public class iDataCenter
             xmlElement12.SetAttribute("id", item7.Key.ToString());
             xmlElement12.SetAttribute("level", item7.Value.ToString());
         }
-        foreach (KeyValuePair<int, int> item8 in m_dictSkill)
+        foreach (KeyValuePair<int, SafeInteger> item8 in m_dictSkill)
         {
             XmlElement xmlElement13 = doc.CreateElement("node2");
             xmlElement10.AppendChild(xmlElement13);
@@ -1042,7 +1051,7 @@ public class iDataCenter
         }
         XmlElement xmlElement16 = doc.CreateElement("materials");
         xmlElement.AppendChild(xmlElement16);
-        foreach (KeyValuePair<int, int> dictMaterial in m_dictMaterials)
+        foreach (KeyValuePair<int, SafeInteger> dictMaterial in m_dictMaterials)
         {
             if (dictMaterial.Value != 0)
             {
@@ -1061,35 +1070,35 @@ public class iDataCenter
             xmlElement19.SetAttribute("type", item10.m_nType.ToString());
             xmlElement19.SetAttribute("id", item10.m_nID.ToString());
         }
-        foreach (KeyValuePair<int, int> item11 in m_dictWeaponSign)
+        foreach (KeyValuePair<int, SafeInteger> item11 in m_dictWeaponSign)
         {
             XmlElement xmlElement20 = doc.CreateElement("weaponsign");
             xmlElement18.AppendChild(xmlElement20);
             xmlElement20.SetAttribute("id", item11.Key.ToString());
             xmlElement20.SetAttribute("sign", item11.Value.ToString());
         }
-        foreach (KeyValuePair<int, int> item12 in m_dictAvatarSign)
+        foreach (KeyValuePair<int, SafeInteger> item12 in m_dictAvatarSign)
         {
             XmlElement xmlElement21 = doc.CreateElement("avatarsign");
             xmlElement18.AppendChild(xmlElement21);
             xmlElement21.SetAttribute("id", item12.Key.ToString());
             xmlElement21.SetAttribute("sign", item12.Value.ToString());
         }
-        foreach (KeyValuePair<int, int> item13 in m_dictEquipStoneSign)
+        foreach (KeyValuePair<int, SafeInteger> item13 in m_dictEquipStoneSign)
         {
             XmlElement xmlElement22 = doc.CreateElement("equipstonesign");
             xmlElement18.AppendChild(xmlElement22);
             xmlElement22.SetAttribute("id", item13.Key.ToString());
             xmlElement22.SetAttribute("sign", item13.Value.ToString());
         }
-        foreach (KeyValuePair<int, int> item14 in m_dictSkillSign)
+        foreach (KeyValuePair<int, SafeInteger> item14 in m_dictSkillSign)
         {
             XmlElement xmlElement23 = doc.CreateElement("skillsign");
             xmlElement18.AppendChild(xmlElement23);
             xmlElement23.SetAttribute("id", item14.Key.ToString());
             xmlElement23.SetAttribute("sign", item14.Value.ToString());
         }
-        foreach (KeyValuePair<int, int> item15 in m_dictCharacterSign)
+        foreach (KeyValuePair<int, SafeInteger> item15 in m_dictCharacterSign)
         {
             XmlElement xmlElement24 = doc.CreateElement("charactersign");
             xmlElement18.AppendChild(xmlElement24);
@@ -1190,24 +1199,35 @@ public class iDataCenter
             Save();
             return;
         }
-        XmlDocument xmlDocument = new XmlDocument();
-        xmlDocument.LoadXml(content);
-        string value = string.Empty;
-        string text = string.Empty;
-        XmlNode documentElement = xmlDocument.DocumentElement;
-        if (MyUtils.GetAttribute(documentElement, "version", ref value))
+
+        try
         {
-            text = value;
+            XmlDocument xmlDocument = new XmlDocument();
+            xmlDocument.LoadXml(content);
+            string value = string.Empty;
+            string text = string.Empty;
+            XmlNode documentElement = xmlDocument.DocumentElement;
+            if (MyUtils.GetAttribute(documentElement, "version", ref value))
+            {
+                text = value;
+            }
+            if (text == "1.0.0")
+            {
+                Clear();
+                Load_1_0(documentElement);
+            }
+            else
+            {
+                Clear();
+                Load_1_0(documentElement);
+            }
         }
-        if (text == "1.0.0")
+        catch
         {
-            Clear();
-            Load_1_0(documentElement);
-        }
-        else
-        {
-            Clear();
-            Load_1_0(documentElement);
+            string filename = Utils.SavePath() + "/gamedata.xml";
+            string filenameMove = Utils.SavePath() + "/gamedata-broken-backup.xml";
+            File.Move(filename, filenameMove);
+            LoadData(string.Empty);
         }
     }
 
@@ -1424,8 +1444,8 @@ public class iDataCenter
                     if (!(item4.Name != "node") && MyUtils.GetAttribute(item4, "id", ref value))
                     {
                         int nCharID = int.Parse(value);
-                        int nLevel = 1;
-                        int nExp = 0;
+                        SafeInteger nLevel = 1;
+                        SafeInteger nExp = 0;
                         if (MyUtils.GetAttribute(item4, "level", ref value))
                         {
                             nLevel = int.Parse(value);
@@ -1824,7 +1844,7 @@ public class iDataCenter
         }
     }
 
-    public List<int> GetLevelList()
+    public List<SafeInteger> GetLevelList()
     {
         return m_ltLevelList;
     }
@@ -1834,7 +1854,7 @@ public class iDataCenter
         return m_ltLevelSaveInfo;
     }
 
-    public List<int> GetDailyTask()
+    public List<SafeInteger> GetDailyTask()
     {
         return m_ltDailyTask;
     }
@@ -1852,12 +1872,12 @@ public class iDataCenter
         return m_ltUnlockSign;
     }
 
-    public Dictionary<int, int> GetMaterialData()
+    public Dictionary<int, SafeInteger> GetMaterialData()
     {
         return m_dictMaterials;
     }
 
-    public Dictionary<int, int> GetWeaponData()
+    public Dictionary<int, SafeInteger> GetWeaponData()
     {
         return m_dictWeapon;
     }
@@ -1983,7 +2003,7 @@ public class iDataCenter
         {
             return -1;
         }
-        int[] array = m_dictSelectPassiveSkill[nCharID];
+        SafeInteger[] array = m_dictSelectPassiveSkill[nCharID];
         if (nIndex < 0 || nIndex >= array.Length)
         {
             return -1;
@@ -1997,7 +2017,7 @@ public class iDataCenter
         {
             return false;
         }
-        int[] array = m_dictSelectPassiveSkill[nCharID];
+        SafeInteger[] array = m_dictSelectPassiveSkill[nCharID];
         for (int i = 0; i < array.Length; i++)
         {
             if (array[i] != -1 && array[i] == nSkillID)
@@ -2008,32 +2028,32 @@ public class iDataCenter
         return false;
     }
 
-    public Dictionary<int, int> GetWeaponSignData()
+    public Dictionary<int, SafeInteger> GetWeaponSignData()
     {
         return m_dictWeaponSign;
     }
 
-    public Dictionary<int, int> GetAvatarSignData()
+    public Dictionary<int, SafeInteger> GetAvatarSignData()
     {
         return m_dictAvatarSign;
     }
 
-    public Dictionary<int, int> GetSkillSignData()
+    public Dictionary<int, SafeInteger> GetSkillSignData()
     {
         return m_dictSkillSign;
     }
 
-    public Dictionary<int, int> GetEquipStoneSignData()
+    public Dictionary<int, SafeInteger> GetEquipStoneSignData()
     {
         return m_dictEquipStoneSign;
     }
 
-    public Dictionary<int, int> GetCharacterSignData()
+    public Dictionary<int, SafeInteger> GetCharacterSignData()
     {
         return m_dictCharacterSign;
     }
 
-    public int GetMaterialNum(int nItemID)
+    public SafeInteger GetMaterialNum(int nItemID)
     {
         if (!m_dictMaterials.ContainsKey(nItemID))
         {
@@ -2051,8 +2071,8 @@ public class iDataCenter
                 m_dictMaterials.Add(nItemID, nCount);
                 return;
             }
-            Dictionary<int, int> dictMaterials;
-            Dictionary<int, int> dictionary = (dictMaterials = m_dictMaterials);
+            Dictionary<int, SafeInteger> dictMaterials;
+            Dictionary<int, SafeInteger> dictionary = (dictMaterials = m_dictMaterials);
             int key;
             int key2 = (key = nItemID);
             key = dictMaterials[key];
@@ -2114,7 +2134,7 @@ public class iDataCenter
         }
     }
 
-    public void SetCharacter(int nCharID, int nLevel, int nExp)
+    public void SetCharacter(int nCharID, SafeInteger nLevel, SafeInteger nExp)
     {
         if (!m_dictCharSaveInfo.ContainsKey(nCharID))
         {
@@ -2259,9 +2279,9 @@ public class iDataCenter
     {
         if (!m_dictSelectPassiveSkill.ContainsKey(nCharID))
         {
-            m_dictSelectPassiveSkill.Add(nCharID, new int[3] { -1, -1, -1 });
+            m_dictSelectPassiveSkill.Add(nCharID, new SafeInteger[3] { -1, -1, -1 });
         }
-        int[] array = m_dictSelectPassiveSkill[nCharID];
+        SafeInteger[] array = m_dictSelectPassiveSkill[nCharID];
         if (nIndex >= 0 && nIndex < array.Length)
         {
             array[nIndex] = nPassiveSkillID;
@@ -2544,7 +2564,7 @@ public class iDataCenter
         return m_dictAchievementData[nID];
     }
 
-    public Dictionary<int, CAchievementData> GetAchiDataData()
+    public Dictionary<SafeInteger, CAchievementData> GetAchiDataData()
     {
         return m_dictAchievementData;
     }
@@ -2843,8 +2863,8 @@ public class iDataCenter
             m_dictKillMonster.Add(nID, nCount);
             return;
         }
-        Dictionary<int, int> dictKillMonster;
-        Dictionary<int, int> dictionary = (dictKillMonster = m_dictKillMonster);
+        Dictionary<int, SafeInteger> dictKillMonster;
+        Dictionary<int, SafeInteger> dictionary = (dictKillMonster = m_dictKillMonster);
         int key;
         int key2 = (key = nID);
         key = dictKillMonster[key];
@@ -2872,7 +2892,7 @@ public class iDataCenter
         return m_dictKillMonster[nID];
     }
 
-    public Dictionary<int, int> GetAvatarData()
+    public Dictionary<int, SafeInteger> GetAvatarData()
     {
         return m_dictAvatar;
     }
@@ -2887,7 +2907,7 @@ public class iDataCenter
         return true;
     }
 
-    public void SetAvatar(int avatarid, int avatarlevel)
+    public void SetAvatar(int avatarid, SafeInteger avatarlevel)
     {
         if (!m_dictAvatar.ContainsKey(avatarid))
         {

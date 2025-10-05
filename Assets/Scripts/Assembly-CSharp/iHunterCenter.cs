@@ -38,7 +38,7 @@ public class iHunterCenter : iBaseCenter
 		return m_ltHunterInfo[m_ltHunterInfo.Count - 1];
 	}
 
-	public float GetExpRate(int nExp, int nLevel)
+	public float GetExpRate(SafeInteger nExp, SafeInteger nLevel)
 	{
 		CHunterInfo cHunterInfo = Get(nLevel - 1);
 		if (cHunterInfo == null)
@@ -48,7 +48,7 @@ public class iHunterCenter : iBaseCenter
 		return Mathf.Clamp01((float)nExp / (float)cHunterInfo.m_nExp);
 	}
 
-	public void CalcHunterLvl(ref int nLevel, ref int nExp)
+	public void CalcHunterLvl(ref SafeInteger nLevel, ref SafeInteger nExp)
 	{
 		for (int i = 0; i < m_ltHunterInfo.Count && nExp >= m_ltHunterInfo[i].m_nExp; i++)
 		{

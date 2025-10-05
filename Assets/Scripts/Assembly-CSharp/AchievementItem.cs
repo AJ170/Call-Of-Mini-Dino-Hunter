@@ -55,7 +55,7 @@ public class AchievementItem : MonoBehaviour
 		Dictionary<int, string> introduce_list = chievement_info.introduce_list;
 		Dictionary<int, TUIAchievementRewardInfo> reward_list = chievement_info.reward_list;
 		Dictionary<int, int> progress_list = chievement_info.progress_list;
-		Dictionary<int, bool> take_reward_list = chievement_info.take_reward_list;
+		Dictionary<SafeInteger, bool> take_reward_list = chievement_info.take_reward_list;
 		Dictionary<int, string> progress_text_list = chievement_info.progress_text_list;
 		if (take_reward_list.ContainsKey(1) && !take_reward_list[1])
 		{

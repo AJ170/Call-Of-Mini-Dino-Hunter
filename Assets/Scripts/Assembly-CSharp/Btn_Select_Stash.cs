@@ -132,12 +132,12 @@ public class Btn_Select_Stash : MonoBehaviour
 		}
 	}
 
-	public void SetGoodsCount(int m_count)
+	public void SetGoodsCount(SafeInteger m_count)
 	{
 		if (m_count == 0)
 		{
 			label_count.Text = string.Empty;
-			img_mask.gameObject.SetActiveRecursively(true);
+            img_mask.gameObject.SetActiveRecursively(false);
 			img_mask.color = new Color(1f, 1f, 1f, 0.1f);
 			img_texture.color = new Color(1f, 1f, 1f, 0.3f);
 			img_quality.gameObject.SetActiveRecursively(true);
@@ -158,7 +158,7 @@ public class Btn_Select_Stash : MonoBehaviour
 		return goods_info;
 	}
 
-	public void SetSellInfo(int m_count)
+	public void SetSellInfo(SafeInteger m_count)
 	{
 		SetGoodsCount(m_count);
 		goods_info.SetCount(m_count);

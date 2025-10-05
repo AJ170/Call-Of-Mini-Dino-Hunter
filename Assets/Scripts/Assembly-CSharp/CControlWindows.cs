@@ -15,6 +15,7 @@ public class CControlWindows : CControlBase
         m_GameScene = iGameApp.GetInstance().m_GameScene;
         m_GameUI = m_GameScene.GetGameUI();
         m_GameUI.RegisterEvent_Windows();
+        m_DataCenter = iGameApp.GetInstance().m_GameData.GetDataCenter();
     }
 
     public override void Initialize()

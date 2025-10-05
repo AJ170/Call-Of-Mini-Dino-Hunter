@@ -44,15 +44,15 @@ public class gyUIPanelTool : gyUICellPanel
 
 	private void Update()
 	{
-		if (m_bMoveIn)
-		{
-			m_fTimeCount += Time.deltaTime;
-			if (!(m_fTimeCount < fRemainTime))
-			{
-				MoveOut();
-			}
-		}
-	}
+        if (m_bMoveIn)
+        {
+            m_fTimeCount += Time.unscaledDeltaTime;
+            if (!(m_fTimeCount < fRemainTime))
+            {
+                MoveOut();
+            }
+        }
+    }
 
 	public void MoveIn()
 	{

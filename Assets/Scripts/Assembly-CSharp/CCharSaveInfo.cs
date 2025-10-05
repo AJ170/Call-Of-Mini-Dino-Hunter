@@ -4,7 +4,7 @@ public class CCharSaveInfo
 
 	public int nLevel;
 
-	public int nExp;
+	public SafeInteger nExp;
 
 	public CCharSaveInfo(int nID)
 	{

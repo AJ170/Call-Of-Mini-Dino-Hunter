@@ -23,9 +23,9 @@ public class TAudioManager : MonoBehaviour
 	private bool m_isSoundOn = true;
 
 #if UNITY_STANDALONE && UNITY_EDITOR
-    private float m_musicVolume = 0.4f;
+    private float m_musicVolume = 0.3f;
 
-	private float m_soundVolume = 0.4f;
+	private float m_soundVolume = 0.3f;
 #else
     private float m_musicVolume = 1f;
 

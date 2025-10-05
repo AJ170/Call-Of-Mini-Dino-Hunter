@@ -45,7 +45,7 @@
   <!-- Day 7 -->
   <blackmarket date="d7:h0" time="24">
     <node itemtype="3" itemid="1002" iscrystal="true" price="50" />
-    <node itemtype="3" itemid="601" iscrystal="true" price="50" />>
+    <node itemtype="3" itemid="606" iscrystal="true" price="50" />
     <node itemtype="3" itemid="203" iscrystal="true" price="50" />
   </blackmarket>
 
@@ -102,7 +102,7 @@
 
   <!-- Day 15 -->
   <blackmarket date="d15:h0" time="24">
-    <node itemtype="3" itemid="603" iscrystal="true" price="50" />
+	<node itemtype="3" itemid="605" iscrystal="true" price="50" />
     <node itemtype="3" itemid="1003" iscrystal="true" price="50" />
     <node itemtype="3" itemid="105" iscrystal="true" price="50" />
     <node itemtype="3" itemid="201" iscrystal="true" price="50" />
@@ -131,7 +131,7 @@
   </blackmarket>
 
   <!-- Day 19 -->
-  <blackmarket date="d19:h0" time="24">" />
+  <blackmarket date="d19:h0" time="24">
     <node itemtype="3" itemid="604" iscrystal="true" price="50" />
     <node itemtype="3" itemid="1002" iscrystal="true" price="50" />
     <node itemtype="3" itemid="204" iscrystal="true" price="50" />
@@ -146,7 +146,7 @@
 
   <!-- Day 21 -->
   <blackmarket date="d21:h0" time="24">
-    <node itemtype="3" itemid="601" iscrystal="true" price="50" />
+    <node itemtype="3" itemid="603" iscrystal="true" price="50" />
     <node itemtype="3" itemid="1004" iscrystal="true" price="50" />
     <node itemtype="3" itemid="201" iscrystal="true" price="50" />
   </blackmarket>
@@ -171,6 +171,7 @@
     <node itemtype="3" itemid="507" iscrystal="true" price="100" />
     <node itemtype="3" itemid="602" iscrystal="true" price="50" />
     <node itemtype="3" itemid="405" iscrystal="true" price="50" />
+	<node itemtype="3" itemid="605" iscrystal="true" price="50" />
   </blackmarket>
 
   <!-- Day 25 -->
@@ -197,7 +198,7 @@
   <!-- Day 28 -->
   <blackmarket date="d28:h0" time="24">
     <node itemtype="3" itemid="306" iscrystal="true" price="75" />
-    <node itemtype="3" itemid="601" iscrystal="true" price="50" />
+    <node itemtype="3" itemid="606" iscrystal="true" price="50" />
     <node itemtype="3" itemid="203" iscrystal="true" price="50" />
   </blackmarket>
 

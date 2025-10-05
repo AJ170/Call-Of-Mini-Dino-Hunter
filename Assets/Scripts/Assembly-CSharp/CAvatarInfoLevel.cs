@@ -2,32 +2,36 @@ using System.Collections.Generic;
 
 public class CAvatarInfoLevel
 {
-	public int m_nLevel;
+    public SafeInteger m_nLevel = new SafeInteger();
 
-	public int[] arrFunc;
+    public SafeInteger[] arrFunc;
+    public SafeInteger[] arrValueX;
+    public SafeInteger[] arrValueY;
 
-	public int[] arrValueX;
+    public List<SafeInteger> ltMaterials;
+    public List<SafeInteger> ltMaterialsCount;
 
-	public int[] arrValueY;
+    public bool isCrystalPurchase;
 
-	public List<int> ltMaterials;
+    public SafeInteger nPurchasePrice = new SafeInteger();
 
-	public List<int> ltMaterialsCount;
+    public string sDesc = string.Empty;
+    public string sLevelUpDesc = string.Empty;
 
-	public bool isCrystalPurchase;
+    public CAvatarInfoLevel()
+    {
+        arrFunc = new SafeInteger[3];
+        arrValueX = new SafeInteger[3];
+        arrValueY = new SafeInteger[3];
 
-	public int nPurchasePrice;
+        for (int i = 0; i < 3; i++)
+        {
+            arrFunc[i] = new SafeInteger();
+            arrValueX[i] = new SafeInteger();
+            arrValueY[i] = new SafeInteger();
+        }
 
-	public string sDesc = string.Empty;
-
-	public string sLevelUpDesc = string.Empty;
-
-	public CAvatarInfoLevel()
-	{
-		arrFunc = new int[3];
-		arrValueX = new int[3];
-		arrValueY = new int[3];
-		ltMaterials = new List<int>();
-		ltMaterialsCount = new List<int>();
-	}
+        ltMaterials = new List<SafeInteger>();
+        ltMaterialsCount = new List<SafeInteger>();
+    }
 }

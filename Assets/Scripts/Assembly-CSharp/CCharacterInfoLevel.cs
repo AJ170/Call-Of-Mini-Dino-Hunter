@@ -20,7 +20,7 @@ public class CCharacterInfoLevel
 
 	public List<int> ltSkillPassive;
 
-	public int nExp;
+	public SafeInteger nExp;
 
 	public int nAvatarHead;
 

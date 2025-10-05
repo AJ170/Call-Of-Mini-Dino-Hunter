@@ -178,7 +178,7 @@ public class Scene_Stash : MonoBehaviour
 		{
 			if (m_event.GetControlSuccess())
 			{
-				DoSceneChange(m_event.GetWparam(), "Scene_IAP");
+				//DoSceneChange(m_event.GetWparam(), "Scene_IAP");
 				return;
 			}
 			m_fade_in_time = 0f;
@@ -189,7 +189,7 @@ public class Scene_Stash : MonoBehaviour
 		{
 			if (m_event.GetControlSuccess())
 			{
-				DoSceneChange(m_event.GetWparam(), "Scene_Gold");
+				//DoSceneChange(m_event.GetWparam(), "Scene_Gold");
 				return;
 			}
 			m_fade_in_time = 0f;
@@ -200,7 +200,7 @@ public class Scene_Stash : MonoBehaviour
 		{
 			if (m_event.GetControlSuccess())
 			{
-				DoSceneChange(m_event.GetWparam(), "Scene_IAP");
+				//DoSceneChange(m_event.GetWparam(), "Scene_IAP");
 				return;
 			}
 			m_fade_in_time = 0f;
@@ -421,7 +421,7 @@ public class Scene_Stash : MonoBehaviour
 			}
 			if (!is_fade_out)
 			{
-				next_scene = "Scene_IAP";
+				//next_scene = "Scene_IAP";
 				is_fade_out = true;
 				m_fade.FadeOut();
 			}
@@ -438,7 +438,7 @@ public class Scene_Stash : MonoBehaviour
 			}
 			if (!is_fade_out)
 			{
-				next_scene = "Scene_Gold";
+				//next_scene = "Scene_Gold";
 				is_fade_out = true;
 				m_fade.FadeOut();
 			}

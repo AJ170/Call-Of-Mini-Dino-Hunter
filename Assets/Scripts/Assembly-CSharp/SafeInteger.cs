@@ -2,61 +2,130 @@ using UnityEngine;
 
 public class SafeInteger
 {
-	private const int m_f2_param1 = 23;
+    private int key1;
+    private int key2;
 
-	private const int m_f2_param2 = 67;
+    private int part1;
+    private int part2;
 
-	private int m_value;
+    private int f1;
+    private int f2;
 
-	private int m_f1_param1;
+    private const int m_f2_param1 = 23;
+    private const int m_f2_param2 = 67;
 
-	private int m_f1_param2;
+    public SafeInteger()
+    {
+        key1 = Random.Range(1000, 9999);
+        key2 = Random.Range(1000, 9999);
+        part1 = Random.Range(1, 5000);
+        part2 = Random.Range(1, 5000);
+        UpdateChecksums();
+    }
 
-	private int m_f1;
+    public SafeInteger(int value) : this()
+    {
+        Set(value);
+    }
 
-	private int m_f2;
+    private void UpdateChecksums()
+    {
+        int val = GetRaw();
+        f1 = key1 * val + key2;
+        f2 = m_f2_param1 * val * val + m_f2_param2;
+    }
 
-	public SafeInteger()
-	{
-		m_value = 0;
-		m_f1_param1 = Random.Range(5, 55);
-		m_f1_param2 = Random.Range(1, 99);
-		m_f1 = 0;
-		m_f2 = 0;
-		Set(0);
-	}
+    private int GetRaw()
+    {
+        return part1 - part2;
+    }
 
-	public int Get()
-	{
-		return DoGet();
-	}
+    public int Get()
+    {
+        int val = GetRaw();
 
-	public void Set(int value)
-	{
-		DoSet(value);
-	}
+        if (f1 != key1 * val + key2 || f2 != m_f2_param1 * val * val + m_f2_param2)
+        {
+            part1 = Random.Range(100, 5000) + val;
+            part2 = part1 - val;
+            UpdateChecksums();
+        }
 
-	private int DoGet()
-	{
-		int num = m_f1_param1 * m_value + m_f1_param2;
-		if (num != m_f1)
-		{
-			DoSet(0);
-			return m_value;
-		}
-		int num2 = 23 * m_value * m_value + 67;
-		if (num2 != m_f2)
-		{
-			DoSet(0);
-			return m_value;
-		}
-		return m_value;
-	}
+        key1 = key1 ^ (Random.Range(1, 255));
+        key2 = key2 ^ (Random.Range(1, 255));
+        UpdateChecksums();
 
-	public void DoSet(int value)
-	{
-		m_value = value;
-		m_f1 = m_f1_param1 * m_value + m_f1_param2;
-		m_f2 = 23 * m_value * m_value + 67;
-	}
+        return GetRaw();
+    }
+
+    public void Set(int value)
+    {
+        part1 = Random.Range(1, 5000) + value;
+        part2 = part1 - value;
+        UpdateChecksums();
+    }
+
+    public static implicit operator SafeInteger(int value)
+    {
+        return new SafeInteger(value);
+    }
+
+    public static implicit operator int(SafeInteger s)
+    {
+        if (s == null) return 0; // or some safe default
+        return s.Get();
+    }
+
+    public static SafeInteger operator +(SafeInteger a, SafeInteger b)
+    {
+        return new SafeInteger(a.Get() + b.Get());
+    }
+
+    public static SafeInteger operator -(SafeInteger a, SafeInteger b)
+    {
+        return new SafeInteger(a.Get() - b.Get());
+    }
+
+    public static SafeInteger operator *(SafeInteger a, SafeInteger b)
+    {
+        return new SafeInteger(a.Get() * b.Get());
+    }
+
+    public static SafeInteger operator /(SafeInteger a, SafeInteger b)
+    {
+        return new SafeInteger(a.Get() / b.Get());
+    }
+
+    public static SafeInteger operator ++(SafeInteger a)
+    {
+        return new SafeInteger(a.Get() + 1);
+    }
+
+    public static SafeInteger operator --(SafeInteger a)
+    {
+        return new SafeInteger(a.Get() - 1);
+    }
+
+    public override bool Equals(object obj)
+    {
+        if (obj is SafeInteger)
+        {
+            return Get() == ((SafeInteger)obj).Get();
+        }
+        if (obj is int)
+        {
+            return Get() == (int)obj;
+        }
+        return false;
+    }
+
+    public override int GetHashCode()
+    {
+        return Get().GetHashCode();
+    }
+
+    public override string ToString()
+    {
+        return Get().ToString();
+    }
 }

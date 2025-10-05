@@ -4,7 +4,7 @@ public class CAchievementData
 
 	public int nState;
 
-	public int nCurValue;
+	public SafeInteger nCurValue;
 
 	public bool[] arrIsGotReward;
 

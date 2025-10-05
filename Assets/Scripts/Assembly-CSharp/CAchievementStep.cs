@@ -4,5 +4,5 @@ public class CAchievementStep
 
 	public int nRewardType;
 
-	public int nRewardNumber;
+	public SafeInteger nRewardNumber;
 }

@@ -8,7 +8,7 @@ public class CWeaponInfo
 
 	public int m_nUnlockStageID;
 
-	public int m_nUnlockHunterLvl;
+	public SafeInteger m_nUnlockHunterLvl;
 
 	public CWeaponInfo()
 	{

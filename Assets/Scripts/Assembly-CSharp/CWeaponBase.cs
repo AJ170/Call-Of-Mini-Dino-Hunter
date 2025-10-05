@@ -8,9 +8,9 @@ public class CWeaponBase
 
     protected iGameData m_GameData;
 
-    protected int m_nWeaponID;
+    protected SafeInteger m_nWeaponID;
 
-    protected int m_nWeaponLevel;
+    protected SafeInteger m_nWeaponLevel;
 
     protected CWeaponInfoLevel m_pWeaponLvlInfo;
 
@@ -22,11 +22,11 @@ public class CWeaponBase
 
     protected float m_fFireIntervalCount;
 
-    protected int m_nBulletNum;
+    protected SafeInteger m_nBulletNum;
 
-    protected int m_nBulletNumMax;
+    protected SafeInteger m_nBulletNumMax;
 
-    protected int m_nBulletNumMaxBase;
+    protected SafeInteger m_nBulletNumMaxBase;
 
     protected bool m_bNetPlayerShoot;
 
@@ -227,10 +227,6 @@ public class CWeaponBase
     public void Fire(CCharPlayer player)
     {
         if (m_pWeaponLvlInfo == null || m_GameScene == null || player == null)
-            return;
-
-        if (m_GameScene.GameOverUIStatus == iGameSceneBase.kGameOverUIStatus.Win ||
-            m_GameScene.GameOverUIStatus == iGameSceneBase.kGameOverUIStatus.Win_Mutiply)
             return;
 
         if (IsBulletEmpty && m_pWeaponLvlInfo.nType != 1)

@@ -4,9 +4,9 @@ using UnityEngine;
 [RequireComponent(typeof(gyUIPoolObject))]
 public class iGoldEmitter : MonoBehaviour
 {
-	protected int[] m_arrGoldValue = new int[4] { 1, 5, 10, 50 };
+	protected int[] m_arrGoldValue = new int[6] { 1, 5, 10, 50, 100, 250};
 
-	protected float[] m_arrGoldSize = new float[4] { 0.5f, 1f, 2f, 3f };
+	protected float[] m_arrGoldSize = new float[6] { 0.5f, 1f, 2f, 3f, 4f, 5f };
 
 	protected int m_nGold;
 

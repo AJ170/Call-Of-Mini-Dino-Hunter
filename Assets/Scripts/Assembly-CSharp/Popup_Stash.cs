@@ -99,34 +99,38 @@ public class Popup_Stash : MonoBehaviour
 		}
 	}
 
-	public void HideSell()
-	{
-		Debug.Log("You close sell");
-		go_sell.transform.localPosition = new Vector3(0f, -2000f, go_sell.transform.localPosition.z);
-	}
+    public void HideSell()
+    {
+        Debug.Log("You close sell");
+        go_sell.transform.localPosition = new Vector3(0f, -2000f, go_sell.transform.localPosition.z);
+        SetGoodsControl(null);
+    }	
 
-	public void SetInfo(TUIStashInfo m_stash_info, GameObject go_invoke)
-	{
-		if (m_stash_info == null)
-		{
-			Debug.Log("error!");
-			return;
-		}
-		stash_info = m_stash_info;
-		int level = m_stash_info.level;
-		int nowCapacity = m_stash_info.GetNowCapacity();
-		TUIStashUpdateInfo stashLevelInfo = m_stash_info.GetStashLevelInfo();
-		if (stashLevelInfo == null)
-		{
-			Debug.Log("error!");
-			return;
-		}
-		int max_capacity = stashLevelInfo.max_capacity;
-		SetCapacityInfo(nowCapacity, max_capacity);
-		AddPage(m_stash_info.goods_info_list, go_invoke);
-	}
+    public void SetInfo(TUIStashInfo m_stash_info, GameObject go_invoke)
+    {
+        if (m_stash_info == null)
+        {
+            Debug.Log("error!");
+            return;
+        }
+        stash_info = m_stash_info;
 
-	public void SetCapacityInfo(int m_now_count, int m_max_count)
+        int nowCapacity = stash_info.GetNowCapacity();
+        int max_capacity = stash_info.GetStashLevelInfo().max_capacity;
+        SetCapacityInfo(nowCapacity, max_capacity);
+        AddPage(m_stash_info.goods_info_list, go_invoke);
+
+        if (stash_info.IsStashLevelMax() && btn_add != null)
+        {
+            btn_add.gameObject.SetActiveRecursively(false);
+        }
+        else if (btn_add != null)
+        {
+            btn_add.gameObject.SetActiveRecursively(true);
+        }
+    }
+
+    public void SetCapacityInfo(int m_now_count, int m_max_count)
 	{
 		if (label_capacity == null)
 		{

@@ -200,7 +200,7 @@ public class Scene_IAP : MonoBehaviour
 		{
 			if (m_event.GetControlSuccess())
 			{
-				DoSceneChange(m_event.GetWparam(), "Scene_Gold");
+				//DoSceneChange(m_event.GetWparam(), "Scene_Gold");
 				return;
 			}
 			m_fade_in_time = 0f;
