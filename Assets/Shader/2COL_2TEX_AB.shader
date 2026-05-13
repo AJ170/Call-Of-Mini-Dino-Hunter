@@ -42,7 +42,7 @@ SubShader {
 		return o;
 	}
 
-	float4 frag(v2f i) : SV_TARGET {
+	float4 frag(v2f i) : COLOR {
 		float4 color1 = (tex2D( _MainTex, i.texcoord0) * _MainColor);
     	float4 color2 = (tex2D( _SkinTex, i.texcoord1) * _SkinColor);
     	return (((((color1 * color2) * 4.0) * color1.w) * color2.w) + color1);

@@ -35,7 +35,7 @@ Shader "Triniti/Model/ModelEdge" {
                 return o;
             }
 
-            float4 frag (v2f i) : SV_Target {
+            float4 frag (v2f i) : COLOR {
                 float4 texColor = tex2D(_MainTex, i.uv);
                 return texColor * _Color; 
             }

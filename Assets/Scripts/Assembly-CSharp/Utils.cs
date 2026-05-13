@@ -10,13 +10,19 @@ public class Utils
 
 	static Utils()
 	{
+		
+#if UNITY_PSP2 && !UNITY_EDITOR
+	   m_SavePath = "ux0:/data/comDinoHunter";
+#else
+		m_SavePath = Application.persistentDataPath;
+#endif
 		/*string dataPath = Application.dataPath;
 		//dataPath = Application.persistentDataPath + "/../Documents";
 		if (!Directory.Exists(dataPath))
 		{
 			Directory.CreateDirectory(dataPath);
 		}*/
-		m_SavePath = Application.persistentDataPath;
+		
 	}
 
 	public static bool CreateDocumentSubDir(string dirname)
@@ -96,7 +102,13 @@ public class Utils
 
 	public static void FileGetStringByPath(string sPath, ref string content)
 	{
+#if UNITY_PSP2 && !UNITY_EDITOR
+	   string text = "ux0:/data/comDinoHunter/" + sPath;;
+#else
 		string text = Application.dataPath + "/" + sPath;
+#endif
+		
+		//string text = Application.dataPath + "/" + sPath;
 		if (!File.Exists(text))
 		{
 			Debug.Log("Load" + text + " error");

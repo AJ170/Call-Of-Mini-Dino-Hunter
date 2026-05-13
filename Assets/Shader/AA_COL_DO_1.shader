@@ -40,7 +40,7 @@ Shader "Triniti/Particle/AA_COL_DO_1" {
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target {
+            fixed4 frag (v2f i) : COLOR {
                 fixed4 tex = tex2D(_MainTex, i.uv);
                 tex.a *= saturate(tex.r + tex.g + tex.b); // simulate RGB-to-alpha
                 return tex * _Color * 2.0;

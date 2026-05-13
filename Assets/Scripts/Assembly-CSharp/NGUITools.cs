@@ -733,7 +733,13 @@ static public class NGUITools
 #else
 		if (!NGUITools.fileAccess) return false;
 
+#if UNITY_PSP2 && !UNITY_EDITOR
+	   string path = "ux0:/data/comDinoHunter/" + fileName;
+#else
 		string path = Application.persistentDataPath + "/" + fileName;
+#endif
+		
+		//string path = Application.persistentDataPath + "/" + fileName;
 
 		if (bytes == null)
 		{
@@ -770,7 +776,11 @@ static public class NGUITools
 #else
 		if (!NGUITools.fileAccess) return null;
 
+#if UNITY_PSP2 && !UNITY_EDITOR
+	   string path = "ux0:/data/comDinoHunter/" + fileName;
+#else
 		string path = Application.persistentDataPath + "/" + fileName;
+#endif
 
 		if (File.Exists(path))
 		{

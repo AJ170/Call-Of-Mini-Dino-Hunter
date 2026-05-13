@@ -49,7 +49,7 @@ SubShader {
         return o;
     }
 
-    float4 frag(v2f i) : SV_TARGET {
+    float4 frag(v2f i) : COLOR {
         float4 coord = ((tex2D(_MainTex, i.texcoord0) * _Color) * i.color);
         return lerp((tex2D(_BackTex, i.texcoord0) * _ColorB), coord, coord.wwww);
     }

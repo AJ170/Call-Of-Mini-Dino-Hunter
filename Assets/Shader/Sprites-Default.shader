@@ -46,7 +46,7 @@ Shader "Sprites/Default"
                 return o;
             }
 
-            fixed4 frag(v2f i) : SV_Target
+            fixed4 frag(v2f i) : COLOR
             {
                 fixed4 texcol = tex2D(_MainTex, i.texcoord);
                 return texcol * i.color;

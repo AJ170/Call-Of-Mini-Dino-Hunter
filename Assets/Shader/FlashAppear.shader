@@ -53,7 +53,7 @@ Shader "Custom/FlashAppear"
                 o.color = _FlashColor;
                 return o;
             }
-            float4 frag(v2f i) : SV_TARGET
+            float4 frag(v2f i) : COLOR
             {
                 return i.color;
             }
@@ -93,7 +93,7 @@ Shader "Custom/FlashAppear"
                 o.color = _FlashColor;
                 return o;
             }
-            float4 frag(v2f i) : SV_TARGET
+            float4 frag(v2f i) : COLOR
             {
                 float4 color_1;
                 float4 tmpvar_2;
